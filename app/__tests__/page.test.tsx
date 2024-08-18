@@ -4,6 +4,6 @@ import Page from "../page";
 test("renders welcome message", () => {
   render(<Page />);
   expect(
-    screen.getByText("Welcome to the REST/GraphiQL client!")
+    screen.getByText("Welcome to the REST and GraphiQL client!")
   ).toBeInTheDocument();
 });
