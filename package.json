@@ -7,10 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest --coverage"
+    "test": "vitest --coverage",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix",
+    "*.jsx": "eslint --fix",
+    "*.ts": "eslint --fix",
+    "*.tsx": "eslint --fix"
   },
   "dependencies": {
-    "next": "14.2.5",
+    "next": "^14.2.5",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -26,7 +33,9 @@
     "@vitest/ui": "^2.0.5",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "husky": "^8.0.3",
     "jsdom": "^24.1.1",
+    "lint-staged": "^15.2.9",
     "typescript": "^5",
     "vitest": "^2.0.5"
   }
