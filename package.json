@@ -7,14 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest --coverage",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.js": "eslint --fix",
-    "*.jsx": "eslint --fix",
-    "*.ts": "eslint --fix",
-    "*.tsx": "eslint --fix"
+    "test": "vitest run --coverage",
+    "prepare": "husky",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "next": "^14.2.5",
@@ -33,9 +28,13 @@
     "@vitest/ui": "^2.0.5",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
-    "husky": "^8.0.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "husky": "^9.1.4",
     "jsdom": "^24.1.1",
     "lint-staged": "^15.2.9",
+    "prettier": "^3.3.3",
     "typescript": "^5",
     "vitest": "^2.0.5"
   }
