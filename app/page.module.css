@@ -1,7 +1,51 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   min-height: 100vh;
+  gap: 10px;
+  padding: 20px;
+}
+
+.dark-area {
+  width: 90%;
+  max-width: var(--max-width);
+  height: 400px;
+  background-color: var(--dark);
+  color: var(--white);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin: 1rem;
+}
+
+.light-yellow-text {
+  color: var(--light-yellow);
+}
+
+.light-blue-text {
+  color: var(--light-blue);
+}
+
+.light-purple-text {
+  color: var(--light-purple);
+}
+
+.h2 {
+  font-weight: 300;
+}
+
+.medium-light-element {
+  background-color: var(--transparent);
+  border: var(--border);
+}
+
+.underlined-element {
+  padding: 30px;
+  border-bottom: 1px solid var(--light-transparent);
+  transition: var(--transition);
+}
+
+.underlined-element:hover {
+  color: var(--yellow);
+  border-bottom: 1px solid var(--yellow);
 }
