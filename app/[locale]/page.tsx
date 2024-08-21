@@ -3,6 +3,7 @@ import TranslationsProvider from '@/components/TranslationsProvider/Translations
 import classNames from 'classnames';
 import initTranslations from '../i18n';
 import styles from './page.module.css';
+import LanguageChanger from '@/components/LanguageChanger/LanguageChanger';
 type Props = {
   params: {
     locale: string;
@@ -26,6 +27,7 @@ export default async function Home({ params: { locale } }: Props) {
         <button className={styles['medium-light-element']}>{t('button2')}</button>
         <p className={styles['underlined-element']}>{t('message')}</p>
         <ExampleClientComponent />
+        <LanguageChanger />
       </main>
     </TranslationsProvider>
   );
