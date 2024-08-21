@@ -2,6 +2,12 @@ import { render, screen } from '@testing-library/react';
 import Page from '../page';
 
 test('renders welcome message', () => {
-  render(<Page />);
+  render(
+    <Page
+      params={{
+        locale: 'en',
+      }}
+    />
+  );
   expect(screen.getByText('Welcome to the REST and GraphiQL client!')).toBeInTheDocument();
 });
