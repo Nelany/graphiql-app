@@ -18,7 +18,7 @@ export default async function RESTGraphQL(props: Props) {
   const { searchParams } = props;
   const { t } = await initTranslations(locale, ['RESTGraphQL']);
   const slugPath = slug.join('/');
-  console.log(props);
+
   const queryParams =
     Object.keys(searchParams).length > 0 ? (
       Object.entries(searchParams).map(([key, value]) => <div key={key}>{`${key}: ${value}`}</div>)
