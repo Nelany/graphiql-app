@@ -1,0 +1,25 @@
+.language-select {
+  background-color: var(--transparent);
+  border: var(--border);
+  outline: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: var(--transition);
+  border-radius: var(--border-radius);
+  color: var(--white);
+}
+
+.language-select:hover {
+  background-color: var(--blue);
+}
+
+.language-select__option {
+  background-color: var(--medium);
+  color: var(--white);
+  border: var(--border);
+  outline: none;
+}
+
+.language-select__option:hover {
+  background-color: var(--yellow);
+}
