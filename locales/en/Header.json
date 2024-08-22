@@ -1,3 +1,6 @@
 {
-  "login": "LOG IN"
+  "signIn": "SIGN IN",
+  "signUp": "SIGN UP",
+  "logout": "LOGOUT",
+  "mainPage": "MAIN PAGE"
 }

@@ -9,12 +9,11 @@ type HeaderProps = {
 export default function Header({ t }: HeaderProps) {
   return (
     <header className={styles.header}>
-      <div className={styles['header__content']}>
-        <Image src="/ho.png" alt="logo" width={70} height={70} />
-        <div className={styles['header__buttons-wrapper']}>
-          <LanguageChanger />
-          <button>{t('login')}</button>
-        </div>
+      <Image src="/ho.png" alt="logo" width={70} height={70} />
+      <div className={styles['header__buttons-wrapper']}>
+        <LanguageChanger />
+        <button className={styles['header__auth-button']}>{t('signIn')}</button>
+        <button className={styles['header__auth-button']}>{t('signUp')}</button>
       </div>
     </header>
   );

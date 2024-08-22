@@ -15,6 +15,10 @@ export default async function Home({ params: { locale } }: Props) {
   const { t } = await initTranslations(locale, ['home']);
   return (
     <main data-testid="main" className={styles.main}>
+      <div className={styles['buttons-container']}>
+        <button>{t('signIn')}</button>
+        <button>{t('signUp')}</button>
+      </div>
       <h1>{t('header')}</h1>
       <div className={styles['dark-area']}>
         <h2>The code window might look like this)</h2>
