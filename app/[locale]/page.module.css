@@ -49,3 +49,9 @@
   color: var(--yellow);
   border-bottom: 1px solid var(--yellow);
 }
+
+.buttons-wrapper {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
