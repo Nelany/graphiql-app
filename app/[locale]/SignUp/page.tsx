@@ -1,6 +1,7 @@
 import initTranslations from '../../i18n';
 import classNames from 'classnames';
 import styles from './page.module.css';
+import SignUpForm from '@/components/SIgnUpForm/SignUpForm';
 
 type Props = { params: { locale: string } };
 
@@ -12,6 +13,7 @@ export default async function SignUp(props: Props) {
   return (
     <main className={styles.main}>
       <h1 className={classNames(styles['light-blue-text'])}>{t('tittle')}</h1>
+      <SignUpForm />
     </main>
   );
 }
