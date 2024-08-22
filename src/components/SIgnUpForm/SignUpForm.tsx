@@ -3,6 +3,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { registerWithEmailAndPassword } from '../../../firebase';
 import styles from './SignUpForm.module.css';
+import { useRouter } from 'next/navigation';
 
 interface SignUpFormData {
   name: string;
@@ -17,9 +18,12 @@ export default function SignUpForm() {
     formState: { errors },
   } = useForm<SignUpFormData>({ mode: 'onChange' });
 
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     const { name, email, password } = data;
     await registerWithEmailAndPassword(name, email, password);
+    router.push('/');
   };
 
   return (

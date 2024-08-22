@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import styles from './SignInForm.module.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { logInWithEmailAndPassword } from '../../../firebase';
+import { useRouter } from 'next/navigation';
 
-export interface SignInFormData {
+interface SignInFormData {
   email: string;
   password: string;
 }
@@ -19,9 +20,12 @@ export default function SignInForm() {
     formState: { errors },
   } = useForm<SignInFormData>({ mode: 'onChange' });
 
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
     const { email, password } = data;
     await logInWithEmailAndPassword(email, password);
+    router.push('/');
   };
 
   return (
