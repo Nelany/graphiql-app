@@ -1,0 +1,6 @@
+{
+  "tittle": "Это страница REST/GraphQL!",
+  "slug": "Слаг: ",
+  "queryParametersTittle": "Параметры запроса: ",
+  "noQueryParameters": "Параметры запроса не заданы!"
+}
