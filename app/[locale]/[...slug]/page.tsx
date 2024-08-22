@@ -1,4 +1,6 @@
+import classNames from 'classnames';
 import initTranslations from '../../i18n';
+import styles from './page.module.css';
 
 type Props = {
   params: {
@@ -25,15 +27,16 @@ export default async function RESTGraphQL(props: Props) {
     );
 
   return (
-    <div>
+    <main className={styles.main}>
       <h1>{t('tittle')}</h1>
-
-      <h2>
-        {t('slug')}
-        {slugPath}
-      </h2>
-      <h3>{t('queryParametersTittle')}</h3>
-      {queryParams}
-    </div>
+      <div className={styles['dark-area']}>
+        <h2 className={classNames(styles.h2, styles['light-yellow-text'])}>
+          {t('slug')}
+          {slugPath}
+        </h2>
+        <h3 className={classNames(styles.h2, styles['light-purple-text'])}>{t('queryParametersTittle')}</h3>
+        {queryParams}
+      </div>
+    </main>
   );
 }
