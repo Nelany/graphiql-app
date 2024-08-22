@@ -1,0 +1,22 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.header__content {
+  width: 100%;
+  max-width: var(--max-width);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  margin: 20px;
+  border-bottom: 1px solid var(--light-transparent);
+}
+
+.header__buttons-wrapper {
+  display: flex;
+  gap: 10px;
+}

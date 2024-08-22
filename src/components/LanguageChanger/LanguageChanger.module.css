@@ -1,9 +1,10 @@
 .language-select {
+  height: 70px;
   background-color: var(--transparent);
   border: var(--border);
   outline: none;
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 10px 0 10px 10px;
   transition: var(--transition);
   border-radius: var(--border-radius);
   color: var(--white);
