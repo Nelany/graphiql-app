@@ -1,8 +1,8 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { auth, registerWithEmailAndPassword } from '../../../firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { registerWithEmailAndPassword } from '../../../firebase';
+import styles from './SignUpForm.module.css';
 
 interface SignUpFormData {
   name: string;
@@ -17,23 +17,34 @@ export default function SignUpForm() {
     formState: { errors },
   } = useForm<SignUpFormData>();
 
-  const registerUser = (data: { name: string; email: string; password: string }) => {
+  const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     const { name, email, password } = data;
-    registerWithEmailAndPassword(name, email, password);
+    await registerWithEmailAndPassword(name, email, password);
   };
 
   return (
-    <form onSubmit={handleSubmit(registerUser)}>
-      <input {...register('name', { required: true })} placeholder="Name" />
-      {errors.name && <span>Name is required</span>}
-
-      <input {...register('email', { required: true })} placeholder="Email" />
-      {errors.email && <span>Email is required</span>}
-
-      <input {...register('password', { required: true })} type="password" placeholder="Password" />
-      {errors.password && <span>Password is required</span>}
-
-      <button type="submit">Sign Up</button>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles['sign-up-form']}>
+      <div className={styles['input-wrapper']}>
+        <label>Enter your name:</label>
+        <input className={styles.input} {...register('name', { required: true })} placeholder="Name" />
+        {errors.email && <span>Email is required</span>}
+      </div>
+      <div className={styles['input-wrapper']}>
+        <label>Enter your email:</label>
+        <input className={styles.input} {...register('email', { required: true })} placeholder="Email" />
+        {errors.email && <span>Email is required</span>}
+      </div>
+      <div className={styles['input-wrapper']}>
+        <label>Enter your password:</label>
+        <input
+          className={styles.input}
+          {...register('password', { required: true })}
+          type="password"
+          placeholder="Password"
+        />
+        {errors.password && <span>Password is required</span>}
+      </div>
+      <button type="submit">Sign up</button>
     </form>
   );
 }
