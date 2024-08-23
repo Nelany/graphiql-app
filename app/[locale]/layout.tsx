@@ -8,7 +8,7 @@ type Props = {
     locale: string;
   };
 };
-const namespaces = ['Header', 'exampleClientComponent', 'home'];
+const namespaces = ['Header', 'exampleClientComponent', 'home', 'forms', 'signIn', 'signUp'];
 
 export default async function RootLayout({ children, params: { locale } }: Props) {
   const { t, resources } = await initTranslations(locale, namespaces);
