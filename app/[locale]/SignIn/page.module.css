@@ -1,0 +1,12 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  gap: 30px;
+  padding: 30px;
+}
+
+.light-blue-text {
+  color: var(--light-blue);
+}

@@ -3,7 +3,10 @@ import TranslationsProvider from '@/components/TranslationsProvider/Translations
 import classNames from 'classnames';
 import initTranslations from '../i18n';
 import styles from './page.module.css';
+import SignInButton from '@/components/SignInButton/SignInButton';
+import SignUpButton from '@/components/SignUpButton/SignUpButton';
 import LanguageChanger from '@/components/LanguageChanger/LanguageChanger';
+
 type Props = {
   params: {
     locale: string;
@@ -13,7 +16,7 @@ type Props = {
 export default async function Home({ params: { locale } }: Props) {
   const { t, resources } = await initTranslations(locale, ['home', 'exampleClientComponent']);
   return (
-    <TranslationsProvider namespaces={[t('exampleClientComponent')]} locale={locale} resources={resources}>
+    <TranslationsProvider namespaces={[t('exampleClientComponent', 'home')]} locale={locale} resources={resources}>
       <main data-testid="main" className={styles.main}>
         <h1>{t('header')}</h1>
         <div className={styles['dark-area']}>
@@ -22,6 +25,10 @@ export default async function Home({ params: { locale } }: Props) {
           <h2 className={classNames(styles.h2, styles['light-blue-text'])}>The code window might look like this)</h2>
           <h2 className={classNames(styles.h2, styles['light-purple-text'])}>The code window might look like this)</h2>
           <h2 className={classNames(styles.h2)}>The code window might look like this)</h2>
+        </div>
+        <div className={styles['buttons-wrapper']}>
+          <SignInButton />
+          <SignUpButton />
         </div>
         <button>{t('button')}</button>
         <button className={styles['medium-light-element']}>{t('button2')}</button>
