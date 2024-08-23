@@ -1,0 +1,13 @@
+{
+  "placeholderEmail": "Email",
+  "placeholderPassword": "Password",
+  "email": "Enter your email:",
+  "password": "Enter your password:",
+  "passwordRequired": "Please, enter your password",
+  "emailRequired": "Please, enter your email",
+  "emailValidate": "Enter your email in the format example@email.com",
+  "passwordValidate": "Password must be at least 8 characters long, contain one letter, one digit, and one special character",
+  "name": "Please, enter your email",
+  "nameRequired": "Name is required",
+  "placeholderName": "Name"
+}
