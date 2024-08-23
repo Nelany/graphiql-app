@@ -1,8 +1,8 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import styles from './SignInButton.module.css';
-import { useRouter } from 'next/navigation';
 
 export default function SignInButton() {
   const { t } = useTranslation();
@@ -13,7 +13,7 @@ export default function SignInButton() {
   };
   return (
     <button onClick={handleClick} className={styles['sign-in-button']}>
-      {t('buttonSignIn')}
+      {t('home:buttonSignIn')}
     </button>
   );
 }

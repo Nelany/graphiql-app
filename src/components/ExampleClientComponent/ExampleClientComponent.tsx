@@ -7,9 +7,9 @@ export default function ExampleClientComponent() {
 
   return (
     <>
-      <h3>{t('greeting')}</h3>
+      <h3>{t('exampleClientComponent:greeting')}</h3>
 
-      <h3>{t('greeting2')}</h3>
+      <h3>{t('exampleClientComponent:greeting2')}</h3>
     </>
   );
 }
