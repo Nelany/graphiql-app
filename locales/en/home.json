@@ -4,5 +4,9 @@
   "button2": "BUTTON or something else",
   "message": "You can add similar translations for each component in the locales folder.",
   "buttonSignIn": "Sign in",
-  "buttonSignUp": "Sign up"
+  "buttonSignUp": "Sign up",
+  "signIn": "SIGN IN",
+  "signUp": "SIGN UP",
+  "logout": "LOGOUT",
+  "mainPage": "MAIN PAGE"
 }

@@ -7,6 +7,14 @@
   padding: 20px;
 }
 
+.buttons-container {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .dark-area {
   width: 90%;
   max-width: var(--max-width);
