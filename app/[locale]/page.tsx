@@ -5,6 +5,8 @@ import initTranslations from '../i18n';
 import styles from './page.module.css';
 import SignInButton from '@/components/SignInButton/SignInButton';
 import SignUpButton from '@/components/SignUpButton/SignUpButton';
+import LanguageChanger from '@/components/LanguageChanger/LanguageChanger';
+
 type Props = {
   params: {
     locale: string;
@@ -32,6 +34,7 @@ export default async function Home({ params: { locale } }: Props) {
         <button className={styles['medium-light-element']}>{t('button2')}</button>
         <p className={styles['underlined-element']}>{t('message')}</p>
         <ExampleClientComponent />
+        <LanguageChanger />
       </main>
     </TranslationsProvider>
   );
