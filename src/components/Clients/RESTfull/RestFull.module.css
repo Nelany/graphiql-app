@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   gap: 40px;
   max-width: 1200px;
@@ -11,6 +11,7 @@
   padding: 1em;
   width: 100%;
 }
+
 .editFieldContainer {
   display: flex;
   flex-direction: column;
@@ -20,15 +21,17 @@
   padding: 1em;
   gap: 10px;
 }
+
 .methodEndContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
   width: 100%;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
+
 .buttonSend {
   border: 3px solid var(--medium);
   height: 50px;
