@@ -5,8 +5,7 @@
   "message": "Вы можете добавлять подобные переводы для каждого компонента в папку locales.",
   "buttonSignIn": "Вход",
   "buttonSignUp": "Регистрация",
-  "signIn": "ВХОД",
-  "signUp": "РЕГИСТРАЦИЯ",
-  "logout": "ВЫЙТИ",
-  "mainPage": "ГЛАВНАЯ СТРАНИЦА"
+  "buttonHistory": "История",
+  "buttonRest": "РЕСТ",
+  "buttonGraphQL": "ГрафКюЭль"
 }

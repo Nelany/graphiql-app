@@ -5,8 +5,7 @@
   "message": "You can add similar translations for each component in the locales folder.",
   "buttonSignIn": "Sign in",
   "buttonSignUp": "Sign up",
-  "signIn": "SIGN IN",
-  "signUp": "SIGN UP",
-  "logout": "LOGOUT",
-  "mainPage": "MAIN PAGE"
+  "buttonHistory": "History",
+  "buttonRest": "REST",
+  "buttonGraphQL": "GraphQL"
 }

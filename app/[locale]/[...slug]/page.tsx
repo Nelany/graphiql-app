@@ -28,7 +28,7 @@ export default async function RESTGraphQL(props: Props) {
 
   return (
     <main className={styles.main}>
-      <h1>{t('tittle')}</h1>
+      {slug[0] !== 'GRAPHQL' ? <h1>{t('tittleRest')}</h1> : <h1>{t('tittleGraphQL')}</h1>}
       <div className={styles['dark-area']}>
         <h2 className={classNames(styles.h2, styles['light-yellow-text'])}>
           {t('slug')}

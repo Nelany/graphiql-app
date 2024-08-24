@@ -1,5 +1,9 @@
 import LanguageChanger from '@/components/LanguageChanger/LanguageChanger';
 import Image from 'next/image';
+import { HomeButton } from '../HomeButton/HomeButton';
+import { LogoutButton } from '../LogoutButton/LogoutButton';
+import SignInButton from '../SignInButton/SignInButton';
+import SignUpButton from '../SignUpButton/SignUpButton';
 import styles from './Header.module.css';
 
 type HeaderProps = {
@@ -12,8 +16,10 @@ export default function Header({ t }: HeaderProps) {
       <Image src="/ho.png" alt="logo" width={70} height={70} />
       <div className={styles['header__buttons-wrapper']}>
         <LanguageChanger />
-        <button className={styles['header__auth-button']}>{t('signIn')}</button>
-        <button className={styles['header__auth-button']}>{t('signUp')}</button>
+        <SignInButton />
+        <SignUpButton />
+        <LogoutButton />
+        <HomeButton />
       </div>
     </header>
   );
