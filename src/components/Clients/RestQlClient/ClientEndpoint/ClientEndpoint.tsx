@@ -3,7 +3,12 @@
 import { useState } from 'react';
 import styles from './ClientEndpoint.module.css';
 
-const ClientEndpoint: React.FC = () => {
+interface ClientEndpointProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const ClientEndpoint: React.FC<ClientEndpointProps> = ({ value, onChange }) => {
   const [inputValue, setInputValue] = useState<string>('');
 
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,8 +19,8 @@ const ClientEndpoint: React.FC = () => {
     <div className={styles.endpointInput}>
       <input
         type="text"
-        value={inputValue}
-        onChange={inputHandler}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className={styles.inputWith}
         placeholder="URL Endpoint"
       />

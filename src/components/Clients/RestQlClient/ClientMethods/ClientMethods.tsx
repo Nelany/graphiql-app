@@ -2,17 +2,18 @@
 
 import { useState } from 'react';
 import styles from './ClientMethods.module.css';
-
-const ClientMethods: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<string>('GET');
-
+interface ClientMethodsProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+const ClientMethods: React.FC<ClientMethodsProps> = ({ value, onChange }) => {
   const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
+    onChange(event.target.value);
   };
 
   return (
     <div>
-      <select id="dropdown" value={selectedOption} onChange={handleDropdownChange} className={styles.select}>
+      <select id="dropdown" value={value} onChange={handleDropdownChange} className={styles.select}>
         <option value="" disabled>
           Select Method
         </option>

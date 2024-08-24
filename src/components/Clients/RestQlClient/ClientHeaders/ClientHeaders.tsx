@@ -1,21 +1,47 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ClientHeader from './ClientHeader/ClientHeader';
+import styles from './ClientHeaders.module.css';
 
-const ClientHeaders: React.FC = () => {
-  const [headersCount, setHeadersCount] = useState(0);
-  const addHeaderHandler = () => {
-    setHeadersCount(headersCount + 1);
+interface Header {
+  key: string;
+  value: string;
+}
+
+interface ClientHeadersProps {
+  value: Header[];
+  onChange: (value: Header[]) => void;
+}
+
+const ClientHeaders: React.FC<ClientHeadersProps> = ({ value, onChange }) => {
+  const [headers, setHeaders] = useState<Header[]>(value);
+
+  useEffect(() => {
+    setHeaders(value);
+  }, [value]);
+
+  const addHeader = () => {
+    const newHeaders = [...headers, { key: '', value: '' }];
+    setHeaders(newHeaders);
+    onChange(newHeaders);
   };
-  const items = Array.from({ length: headersCount }, (_, index) => index + 1);
+
+  const handleChange = (index: number, field: keyof Header, value: string) => {
+    const newHeaders = [...headers];
+    newHeaders[index][field] = value;
+    setHeaders(newHeaders);
+    onChange(newHeaders);
+  };
 
   return (
-    <div>
-      <button onClick={addHeaderHandler}>Add Header</button>
-      {items.map((index) => {
-        return <ClientHeader key={index} />;
-      })}
+    <div className={styles.headersContainer}>
+      <button onClick={addHeader} className={styles.buttonAdd}>
+        Add Header
+      </button>
+      {headers.map((header, index) => (
+        <ClientHeader key={index} value={header} onChange={(field, value) => handleChange(index, field, value)} />
+      ))}
     </div>
   );
 };

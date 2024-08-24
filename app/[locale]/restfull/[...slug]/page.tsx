@@ -1,6 +1,7 @@
-import classNames from 'classnames';
-import initTranslations from '../../i18n';
 import styles from './page.module.css';
+import initTranslations from '../../../i18n';
+import RestFull from '@/components/Clients/RESTfull/RestFull';
+import { decode } from 'punycode';
 
 type Props = {
   params: {
@@ -17,7 +18,11 @@ export default async function RESTGraphQL(props: Props) {
   const { slug, locale } = props.params;
   const { searchParams } = props;
   const { t } = await initTranslations(locale, ['RESTGraphQL']);
-  const slugPath = slug.join('/');
+
+  const method = slug[0] || 'GET';
+  const endpoint = decode(searchParams.url || '');
+  const headers = JSON.parse(decode(searchParams.headers || '{}'));
+  const body = searchParams.body ? decode(searchParams.body) : '';
 
   const queryParams =
     Object.keys(searchParams).length > 0 ? (
@@ -29,14 +34,7 @@ export default async function RESTGraphQL(props: Props) {
   return (
     <main className={styles.main}>
       <h1>{t('tittle')}</h1>
-      <div className={styles['dark-area']}>
-        <h2 className={classNames(styles.h2, styles['light-yellow-text'])}>
-          {t('slug')}
-          {slugPath}
-        </h2>
-        <h3 className={classNames(styles.h2, styles['light-purple-text'])}>{t('queryParametersTittle')}</h3>
-        {queryParams}
-      </div>
+      <RestFull method={method} endpoint={endpoint} headers={headers} body={body} />
     </main>
   );
 }

@@ -1,10 +1,43 @@
 'use client';
 
-const ClientHeader: React.FC = () => {
+import React from 'react';
+import styles from './ClientHeader.module.css';
+
+interface Header {
+  key: string;
+  value: string;
+}
+
+interface ClientHeaderProps {
+  value: Header;
+  onChange: (field: keyof Header, value: string) => void;
+}
+
+const ClientHeader: React.FC<ClientHeaderProps> = ({ value, onChange }) => {
+  const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange('key', e.target.value);
+  };
+
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange('value', e.target.value);
+  };
+
   return (
-    <div>
-      <input type="text" placeholder="HEADER" />
-      <input type="text" placeholder="VALUE" />
+    <div className={styles.inputContainer}>
+      <input
+        value={value.key}
+        className={styles.inputField}
+        type="text"
+        placeholder="HEADER"
+        onChange={handleKeyChange}
+      />
+      <input
+        value={value.value}
+        className={styles.inputField}
+        type="text"
+        placeholder="VALUE"
+        onChange={handleValueChange}
+      />
     </div>
   );
 };
