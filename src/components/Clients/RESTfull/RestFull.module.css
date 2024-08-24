@@ -1,0 +1,31 @@
+.resfullContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  max-width: 1200px;
+  border: 4px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  width: 100%;
+}
+.editFieldContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 4px solid gray;
+  border-radius: 1em;
+  padding: 1em;
+  gap: 10px;
+}
+.methodEndContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: start;
+  align-items: center;
+}
