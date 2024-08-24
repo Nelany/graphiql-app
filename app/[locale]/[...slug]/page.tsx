@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import initTranslations from '../../i18n';
 import styles from './page.module.css';
+import JsonEditor from '@/components/Clients/RESTfull/RESTfull';
 
 type Props = {
   params: {
