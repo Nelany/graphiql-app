@@ -1,9 +1,8 @@
 .resfullContainer {
   display: flex;
   flex-wrap: wrap;
-  flex-grow: 1;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: 40px;
   max-width: 1200px;
@@ -25,7 +24,16 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 10px;
   width: 100%;
   justify-content: start;
   align-items: center;
+}
+.buttonSend {
+  border: 3px solid var(--medium);
+  height: 50px;
+  border-radius: 9px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 700;
 }

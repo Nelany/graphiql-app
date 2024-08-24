@@ -5,9 +5,9 @@ import styles from './RestFull.module.css';
 import ClientMethods from '../RestQlClient/ClientMethods/ClientMethods';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
 import ClientHeaders from '../RestQlClient/ClientHeaders/ClientHeaders';
-import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 import ResponseBody from '../RestQlClient/ClientResponse/ResponseBody/ResponseBody';
+import JsonViewer from '../RestQlClient/ClientJsonEditor/JsonEditor';
 
 export default function RestFull() {
   const { t } = useTranslation();
@@ -19,12 +19,13 @@ export default function RestFull() {
         <div className={styles.methodEndContainer}>
           <ClientMethods />
           <ClientEndpoint />
+          <button className={styles.buttonSend}>Send</button>
         </div>
         <ClientHeaders />
-        <JsonEditor />
+        <JsonViewer />
       </div>
-      <div>
-        <h4>{t('restfull:response')}</h4>
+      <h4>{t('restfull:response')}</h4>
+      <div className={styles.editFieldContainer}>
         <ResponseStatus status={200} />
         <ResponseBody body="test" />
       </div>
