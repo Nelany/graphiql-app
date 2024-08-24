@@ -1,4 +1,5 @@
 import Header from '@/components/Header/Header';
+import TokenChecker from '@/components/TokenChecker/TokenChecker';
 import TranslationsProvider from '@/components/TranslationsProvider/TranslationsProvider';
 import initTranslations from '../i18n';
 
@@ -16,7 +17,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
   return (
     <TranslationsProvider namespaces={namespaces} locale={locale} resources={resources}>
       <Header t={t} />
-      {children}
+      <TokenChecker>{children}</TokenChecker>
     </TranslationsProvider>
   );
 }
