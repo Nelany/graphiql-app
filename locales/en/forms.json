@@ -7,7 +7,7 @@
   "emailRequired": "Please, enter your email",
   "emailValidate": "Enter your email in the format example@email.com",
   "passwordValidate": "Password must be at least 8 characters long, contain one letter, one digit, and one special character",
-  "name": "Please, enter your email",
+  "name": "Please, enter your name",
   "nameRequired": "Name is required",
   "placeholderName": "Name"
 }

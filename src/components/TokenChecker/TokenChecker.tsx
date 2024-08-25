@@ -8,35 +8,51 @@ import { auth } from '../../../firebase';
 const TokenChecker: FC<PropsWithChildren<{}>> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
-  // error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const [user, loading, error] = useAuthState(auth);
-  // error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  console.log('ERROR', error, 'ERROR');
 
   useEffect(() => {
     if (loading) return;
-
-    if (user) {
-      if (
-        pathname === '/en/SignIn' ||
-        pathname === '/en/SignUp' ||
-        pathname === '/ru/SignUp' ||
-        pathname === '/ru/SignIn'
-      ) {
-        console.log('Пользователь авторизован');
-        router.push('/');
-      }
-    } else {
-      if (
-        pathname !== '/en/SignIn' &&
-        pathname !== '/en/SignUp' &&
-        pathname !== '/ru/SignUp' &&
-        pathname !== '/ru/SignIn'
-      ) {
-        console.log('Пользователь не авторизован');
-        router.push('/');
-      }
+    if (error) {
+      throw new Error(error.message);
     }
-  }, [user, loading, pathname]);
+    const checkTokenExpiration = async () => {
+      if (user) {
+        const tokenResult = await user.getIdTokenResult();
+        const expirationTime = new Date(tokenResult.expirationTime);
+        const currentTime = new Date();
+
+        if (currentTime < expirationTime) {
+          return true;
+        }
+        return false;
+      }
+      return false;
+    };
+
+    const validateToken = async () => {
+      if (user && (await checkTokenExpiration())) {
+        if (
+          pathname === '/en/SignIn' ||
+          pathname === '/en/SignUp' ||
+          pathname === '/ru/SignUp' ||
+          pathname === '/ru/SignIn'
+        ) {
+          router.push('/');
+        }
+      } else {
+        if (
+          pathname !== '/en/SignIn' &&
+          pathname !== '/en/SignUp' &&
+          pathname !== '/ru/SignUp' &&
+          pathname !== '/ru/SignIn'
+        ) {
+          router.push('/');
+        }
+      }
+    };
+    validateToken();
+  }, [user, loading, pathname, router, error]);
 
   return <>{children}</>;
 };
