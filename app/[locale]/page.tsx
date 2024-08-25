@@ -4,6 +4,7 @@ import SignUpButton from '@/components/SignUpButton/SignUpButton';
 import classNames from 'classnames';
 import initTranslations from '../i18n';
 import styles from './page.module.css';
+import RestFullButton from '@/components/Clients/RESTfull/RestFullButton';
 
 type Props = {
   params: {
@@ -30,6 +31,9 @@ export default async function Home({ params: { locale } }: Props) {
       <div className={styles['buttons-wrapper']}>
         <SignInButton />
         <SignUpButton />
+      </div>
+      <div>
+        <RestFullButton />
       </div>
       <button>{t('button')}</button>
       <button className={styles['medium-light-element']}>{t('button2')}</button>
