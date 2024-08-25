@@ -14,3 +14,11 @@
   gap: 10px;
   flex-wrap: wrap;
 }
+
+.logo-link {
+  transition: var(--transition);
+}
+
+.logo-link:hover {
+  transform: scale(1.1);
+}

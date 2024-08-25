@@ -1,9 +1,5 @@
 import ExampleClientComponent from '@/components/ExampleClientComponent/ExampleClientComponent';
-import { GraphQLButton } from '@/components/GraphQLButton/GraphQLButton';
-import { HistoryButton } from '@/components/HistoryButton/HistoryButton';
-import { RestButton } from '@/components/RestButton/RestButton';
-import SignInButton from '@/components/SignInButton/SignInButton';
-import SignUpButton from '@/components/SignUpButton/SignUpButton';
+import { NavButton } from '@/components/NavButton/NavButton';
 import classNames from 'classnames';
 import initTranslations from '../i18n';
 import styles from './page.module.css';
@@ -19,11 +15,12 @@ export default async function Home({ params: { locale } }: Props) {
   return (
     <main data-testid="main" className={styles.main}>
       <div className={styles['buttons-container']}>
-        <HistoryButton />
-        <SignInButton />
-        <SignUpButton />
-        <RestButton />
-        <GraphQLButton />
+        <NavButton className={['main-nav-button']} isUser={true} rout="/Rest" text={'home:buttonRest'} />
+        <NavButton className={['main-nav-button']} isUser={true} rout="/GRAPHQL" text={'home:buttonGraphQL'} />
+        <NavButton className={['main-nav-button']} isUser={true} rout="/History" text={'home:buttonHistory'} />
+        <NavButton className={['main-nav-button']} isUser={true} rout="/" text={'Header:home'} />
+        <NavButton className={['main-nav-button']} isUser={false} rout="/SignIn" text={'home:buttonSignIn'} />
+        <NavButton className={['main-nav-button']} isUser={false} rout="/SignUp" text={'home:buttonSignUp'} />
       </div>
       <h1>{t('header')}</h1>
       <div className={styles['dark-area']}>

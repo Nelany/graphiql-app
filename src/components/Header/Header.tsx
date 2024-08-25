@@ -1,9 +1,7 @@
 import LanguageChanger from '@/components/LanguageChanger/LanguageChanger';
 import Image from 'next/image';
-import { HomeButton } from '../HomeButton/HomeButton';
-import { LogoutButton } from '../LogoutButton/LogoutButton';
-import SignInButton from '../SignInButton/SignInButton';
-import SignUpButton from '../SignUpButton/SignUpButton';
+import Link from 'next/link';
+import { NavButton } from '../NavButton/NavButton';
 import styles from './Header.module.css';
 
 type HeaderProps = {
@@ -13,13 +11,15 @@ type HeaderProps = {
 export default function Header({ t }: HeaderProps) {
   return (
     <header className={styles.header}>
-      <Image src="/ho.png" alt="logo" width={70} height={70} />
+      <Link href="/" className={styles['logo-link']}>
+        <Image src="/ho.png" alt="logo" width={70} height={70} />
+      </Link>
       <div className={styles['header__buttons-wrapper']}>
+        <NavButton isUser={false} rout="/SignIn" text={'home:buttonSignIn'} />
+        <NavButton isUser={false} rout="/SignUp" text={'home:buttonSignUp'} />
+        <NavButton isUser={true} text={'Header:logOut'} />
+        <NavButton isUser={true} rout="/" text={'Header:home'} />
         <LanguageChanger />
-        <SignInButton />
-        <SignUpButton />
-        <LogoutButton />
-        <HomeButton />
       </div>
     </header>
   );
