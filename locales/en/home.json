@@ -1,5 +1,6 @@
 {
   "header": "Welcome to the REST and GraphiQL client!",
+  "greeting": "Welcome back, ",
   "button": "BUTTON",
   "button2": "BUTTON or something else",
   "message": "You can add similar translations for each component in the locales folder.",

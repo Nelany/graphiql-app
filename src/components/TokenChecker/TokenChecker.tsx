@@ -9,7 +9,6 @@ const TokenChecker: FC<PropsWithChildren<{}>> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [user, loading, error] = useAuthState(auth);
-  console.log('ERROR', error, 'ERROR');
 
   useEffect(() => {
     if (loading) return;

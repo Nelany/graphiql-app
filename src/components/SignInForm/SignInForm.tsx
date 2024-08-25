@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { logInWithEmailAndPassword } from '../../../firebase';
 import styles from './SignInForm.module.css';
 
@@ -26,10 +28,9 @@ export default function SignInForm() {
     const { email, password } = data;
     const signInResponse = await logInWithEmailAndPassword(email, password);
     if (signInResponse instanceof Error) {
-      alert(signInResponse.message); // TOAST!!!
+      toast.error(signInResponse.message);
       return;
     }
-    console.log(signInResponse);
     router.push('/');
   };
 

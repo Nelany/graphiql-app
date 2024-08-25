@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { redirect } from 'next/navigation';
 import initTranslations from '../../i18n';
 import styles from './page.module.css';
 
@@ -13,11 +14,17 @@ type Props = {
   };
 };
 
+const validSlugs = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'GRAPHQL'];
+
 export default async function RESTGraphQL(props: Props) {
   const { slug, locale } = props.params;
   const { searchParams } = props;
   const { t } = await initTranslations(locale, ['RESTGraphQL']);
   const slugPath = slug.join('/');
+
+  if (!validSlugs.includes(slug[0])) {
+    redirect('/404');
+  }
 
   const queryParams =
     Object.keys(searchParams).length > 0 ? (
