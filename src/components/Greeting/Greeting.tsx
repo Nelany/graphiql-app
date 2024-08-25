@@ -21,7 +21,7 @@ export const Greeting = () => {
       }, 1000);
     };
     checkName();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (!user) {
