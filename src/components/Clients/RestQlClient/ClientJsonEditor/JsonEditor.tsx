@@ -10,7 +10,7 @@ import { material } from '@uiw/codemirror-theme-material';
 
 interface JsonEditorProps {
   value?: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   isReadOnly?: boolean;
 }
 
@@ -22,8 +22,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange, isReadOnly = f
     try {
       const jsonObject = JSON.parse(jsonString);
       setErrorMessage('');
-
-      onChange(JSON.stringify(jsonObject, null, 2));
+      if (onChange) onChange(JSON.stringify(jsonObject, null, 2));
     } catch (error) {
       const errorString = (error as Error).message || 'Cannot parse JSON';
       setErrorMessage(errorString);
@@ -45,7 +44,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange, isReadOnly = f
           if (val.target.textContent) {
             formatJson(val.target.textContent);
           } else {
-            onChange('');
+            if (onChange) onChange('');
           }
         }}
         ref={editorRef}

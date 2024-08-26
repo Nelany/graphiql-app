@@ -59,7 +59,9 @@ export default function RestFull({ method, endpoint, headers, body }: RestFullPr
         <JsonEditor value={requestBody} onChange={setRequestBody} />
       </div>
       <h4>{t('restfull:response')}</h4>
-      <div className={styles.editFieldContainer}></div>
+      <div className={styles.editFieldContainer}>
+        <JsonEditor isReadOnly={true} />
+      </div>
     </div>
   );
 }
