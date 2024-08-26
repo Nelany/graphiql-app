@@ -35,7 +35,7 @@ export default async function RESTGraphQL(props: Props) {
           return { key: key, value: value };
         })
       : undefined;
-  const body = slug[2] ? decode64(slug[2]) : '';
+  const body = slug[2] ? decode64(slug[2].slice(0, slug[2].indexOf('%'))) : '';
 
   const queryParams =
     Object.keys(searchParams).length > 0 ? (

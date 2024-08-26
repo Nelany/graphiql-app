@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { material } from '@uiw/codemirror-theme-material';
@@ -13,6 +13,7 @@ interface JsonEditorProps {
 
 function JsonEditor({ value, onChange, isReadOnly = false }: JsonEditorProps) {
   const [errorMessage, setErrorMessage] = useState('');
+  const hasFormatted = useRef(false);
 
   const formatJson = (jsonString: string) => {
     try {
@@ -25,6 +26,12 @@ function JsonEditor({ value, onChange, isReadOnly = false }: JsonEditorProps) {
       return jsonString;
     }
   };
+  useEffect(() => {
+    if (!hasFormatted.current && value && onChange) {
+      formatJson(value);
+      hasFormatted.current = true;
+    }
+  }, [value]);
 
   return (
     <div>
