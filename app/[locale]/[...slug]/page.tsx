@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import { redirect } from 'next/navigation';
 import RestFull from '@/components/Clients/RESTfull/RESTfull';
 import { decode64 } from '@/utils/base64';
+import GraphQL from '@/components/Clients/GraphQL/GraphQl';
 
 type Props = {
   params: {
@@ -45,7 +46,7 @@ export default async function RESTGraphQL(props: Props) {
     );
   const restQlPage =
     slug[0] === 'GRAPHQL' ? (
-      <></>
+      <GraphQL method={method} endpoint={endpoint} body={body} headers={headers} locale={locale} />
     ) : (
       <RestFull method={method} endpoint={endpoint} body={body} headers={headers} locale={locale} />
     );
