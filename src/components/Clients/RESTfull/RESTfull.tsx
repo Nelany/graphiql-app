@@ -36,7 +36,7 @@ export default function RestFull({ method, endpoint, headers, body, locale }: Re
 
   useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
-    const encodedBody = requestBody ? encode64(requestBody) : '';
+    const encodedBody = requestBody ? encode64(JSON.stringify(JSON.parse(requestBody))) : '';
     const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : '';
     const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = selectedMethod ? `/${selectedMethod}` : '';

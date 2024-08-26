@@ -28,14 +28,14 @@ export default async function RESTGraphQL(props: Props) {
   }
 
   const method = slug[0];
-  const endpoint = slug[1] ? decode64(slug[1].slice(0, slug[1].indexOf('%'))) : '';
+  const endpoint = slug[1] ? decode64(slug[1].replace('%3D', '=')) : '';
   const headers =
     Object.keys(searchParams).length > 0
       ? Object.entries(searchParams).map(([key, value]) => {
           return { key: key, value: value };
         })
       : undefined;
-  const body = slug[2] ? decode64(slug[2].slice(0, slug[2].indexOf('%'))) : '';
+  const body = slug[2] ? decode64(slug[2].replace('%3D', '=')) : '';
 
   const queryParams =
     Object.keys(searchParams).length > 0 ? (

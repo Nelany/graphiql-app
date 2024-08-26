@@ -27,7 +27,7 @@ function JsonEditor({ value, onChange, isReadOnly = false }: JsonEditorProps) {
     }
   };
   useEffect(() => {
-    if (!hasFormatted.current && value && onChange) {
+    if (!hasFormatted.current && value) {
       formatJson(value);
       hasFormatted.current = true;
     }
