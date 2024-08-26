@@ -7,7 +7,7 @@ interface ClientEndpointProps {
   onChange: (value: string) => void;
 }
 
-const ClientEndpoint: React.FC<ClientEndpointProps> = ({ value, onChange }) => {
+function ClientEndpoint({ value, onChange }: ClientEndpointProps) {
   return (
     <div className={styles.endpointInput}>
       <input
@@ -19,6 +19,6 @@ const ClientEndpoint: React.FC<ClientEndpointProps> = ({ value, onChange }) => {
       />
     </div>
   );
-};
+}
 
 export default ClientEndpoint;

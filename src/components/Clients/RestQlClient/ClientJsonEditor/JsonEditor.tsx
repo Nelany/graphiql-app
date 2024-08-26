@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { material } from '@uiw/codemirror-theme-material';
@@ -11,7 +11,7 @@ interface JsonEditorProps {
   isReadOnly?: boolean;
 }
 
-const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange, isReadOnly = false }) => {
+function JsonEditor({ value, onChange, isReadOnly = false }: JsonEditorProps) {
   const [errorMessage, setErrorMessage] = useState('');
 
   const formatJson = (jsonString: string) => {
@@ -46,6 +46,6 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange, isReadOnly = f
       />
     </div>
   );
-};
+}
 
 export default JsonEditor;

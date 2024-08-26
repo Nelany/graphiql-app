@@ -5,7 +5,7 @@ interface ClientMethodsProps {
   value: string;
   onChange: (value: string) => void;
 }
-const ClientMethods: React.FC<ClientMethodsProps> = ({ value, onChange }) => {
+function ClientMethods({ value, onChange }: ClientMethodsProps) {
   const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(event.target.value);
   };
@@ -34,6 +34,6 @@ const ClientMethods: React.FC<ClientMethodsProps> = ({ value, onChange }) => {
       </select>
     </div>
   );
-};
+}
 
 export default ClientMethods;

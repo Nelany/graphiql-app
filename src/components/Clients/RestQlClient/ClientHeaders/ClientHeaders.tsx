@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ClientHeader from './ClientHeader/ClientHeader';
 import styles from './ClientHeaders.module.css';
 
@@ -14,7 +14,7 @@ interface ClientHeadersProps {
   onChange: (value: Header[]) => void;
 }
 
-const ClientHeaders: React.FC<ClientHeadersProps> = ({ value, onChange }) => {
+function ClientHeaders({ value, onChange }: ClientHeadersProps) {
   const [headers, setHeaders] = useState<Header[]>(value);
 
   useEffect(() => {
@@ -44,6 +44,6 @@ const ClientHeaders: React.FC<ClientHeadersProps> = ({ value, onChange }) => {
       ))}
     </div>
   );
-};
+}
 
 export default ClientHeaders;

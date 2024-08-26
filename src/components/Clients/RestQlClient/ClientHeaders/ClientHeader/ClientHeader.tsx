@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import styles from './ClientHeader.module.css';
 
 interface Header {
@@ -13,7 +12,7 @@ interface ClientHeaderProps {
   onChange: (field: keyof Header, value: string) => void;
 }
 
-const ClientHeader: React.FC<ClientHeaderProps> = ({ value, onChange }) => {
+function ClientHeader({ value, onChange }: ClientHeaderProps) {
   const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange('key', e.target.value);
   };
@@ -40,6 +39,6 @@ const ClientHeader: React.FC<ClientHeaderProps> = ({ value, onChange }) => {
       />
     </div>
   );
-};
+}
 
 export default ClientHeader;

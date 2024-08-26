@@ -4,12 +4,12 @@ interface Props {
   status: number;
 }
 
-const ResponseStatus: React.FC<Props> = (prop) => {
+function ResponseStatus(prop: Props) {
   return (
     <div>
       <p>Status: {prop.status}</p>
     </div>
   );
-};
+}
 
 export default ResponseStatus;
