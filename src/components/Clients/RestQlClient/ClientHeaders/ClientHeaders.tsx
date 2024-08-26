@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ClientHeader from './ClientHeader/ClientHeader';
 import styles from './ClientHeaders.module.css';
 
@@ -16,10 +16,6 @@ interface ClientHeadersProps {
 
 function ClientHeaders({ value, onChange }: ClientHeadersProps) {
   const [headers, setHeaders] = useState<Header[]>(value);
-
-  useEffect(() => {
-    setHeaders(value);
-  }, [value]);
 
   const addHeader = () => {
     const newHeaders = [...headers, { key: '', value: '' }];

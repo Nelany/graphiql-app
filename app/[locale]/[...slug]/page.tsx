@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import initTranslations from '../../i18n';
 import styles from './page.module.css';
-import { decode64 } from '../../../src/utils/base64';
-import RestFull from '../../../src/components/Clients/RESTfull/RestFull';
 import { redirect } from 'next/navigation';
+import RestFull from '@/components/Clients/RESTfull/RESTfull';
+import { decode64 } from '@/utils/base64';
 
 type Props = {
   params: {
@@ -26,8 +26,9 @@ export default async function RESTGraphQL(props: Props) {
   if (!validSlugs.includes(slug[0])) {
     redirect('/404');
   }
+
   const method = slug[0];
-  const endpoint = slug[1] ? decode64(slug[1]) : '';
+  const endpoint = slug[1] ? decode64(slug[1].slice(0, slug[1].indexOf('%'))) : '';
   const headers =
     Object.keys(searchParams).length > 0
       ? Object.entries(searchParams).map(([key, value]) => {
@@ -43,7 +44,11 @@ export default async function RESTGraphQL(props: Props) {
       <div>{t('noQueryParameters')}</div>
     );
   const restQlPage =
-    slug[0] === 'GRAPHQL' ? <></> : <RestFull method={method} endpoint={endpoint} body={body} headers={headers} />;
+    slug[0] === 'GRAPHQL' ? (
+      <></>
+    ) : (
+      <RestFull method={method} endpoint={endpoint} body={body} headers={headers} locale={locale} />
+    );
 
   return (
     <main className={styles.main}>

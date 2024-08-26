@@ -1,14 +1,14 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './RestFull.module.css';
 import ClientMethods from '../RestQlClient/ClientMethods/ClientMethods';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
 import ClientHeaders from '../RestQlClient/ClientHeaders/ClientHeaders';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import { encode64 } from '@/utils/base64';
+import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 
 interface Header {
   key: string;
@@ -20,12 +20,11 @@ interface RestFullProps {
   endpoint?: string;
   headers?: Header[];
   body?: string;
+  locale: string;
 }
 
-export default function RestFull({ method, endpoint, headers, body }: RestFullProps) {
-  const router = useRouter();
+export default function RestFull({ method, endpoint, headers, body, locale }: RestFullProps) {
   const { t } = useTranslation();
-
   const [selectedMethod, setSelectedMethod] = useState(method);
   const [endpointUrl, setEndpointUrl] = useState(endpoint);
   const [requestHeaders, setRequestHeaders] = useState<Header[]>(headers || []);
@@ -34,18 +33,19 @@ export default function RestFull({ method, endpoint, headers, body }: RestFullPr
   useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
     const encodedBody = requestBody ? encode64(requestBody) : '';
-    const encodedHeaders = requestHeaders.length > 0 ? encode64(JSON.stringify(requestHeaders)) : '';
-    const query = new URLSearchParams({
-      headers: encodedHeaders,
-    }).toString();
+    const encodedHeaders = requestHeaders.length > 0 ? requestHeaders.map((val) => Object.values(val)) : '';
+    const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = selectedMethod ? `/${selectedMethod}` : '';
     const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '';
     const pathEncodedBody = encodedBody ? `/${encodedBody}` : '';
     const pathQuery = encodedHeaders ? `?${query}` : '';
-    const path = pathMethod + pathEncodedUrl + pathEncodedBody + pathQuery;
+    const localePath = locale ? `/${locale}` : '';
+    const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathQuery;
 
-    // router.push(path);
-  }, [selectedMethod, endpointUrl, requestHeaders, requestBody, router]);
+    if (typeof window !== 'undefined') {
+      window.history.pushState(null, '', path);
+    }
+  }, [selectedMethod, endpointUrl, requestHeaders, requestBody, locale]);
 
   return (
     <div className={styles.resfullContainer}>
@@ -60,6 +60,7 @@ export default function RestFull({ method, endpoint, headers, body }: RestFullPr
       </div>
       <h4>{t('restfull:response')}</h4>
       <div className={styles.editFieldContainer}>
+        <ResponseStatus status={200} />
         <JsonEditor isReadOnly={true} />
       </div>
     </div>
