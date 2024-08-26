@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import styles from './ClientMethods.module.css';
 interface ClientMethodsProps {
   value: string;

@@ -11,9 +11,10 @@ import { material } from '@uiw/codemirror-theme-material';
 interface JsonEditorProps {
   value?: string;
   onChange: (value: string) => void;
+  isReadOnly?: boolean;
 }
 
-const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange }) => {
+const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange, isReadOnly = false }) => {
   const editorRef = useRef<any>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -34,6 +35,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange }) => {
     <div>
       <p>{errorMessage}</p>
       <CodeMirror
+        readOnly={isReadOnly}
         value={value || ''}
         height="400px"
         theme={material}
