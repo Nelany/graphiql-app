@@ -15,7 +15,6 @@ interface JsonEditorProps {
 }
 
 const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange, isReadOnly = false }) => {
-  const editorRef = useRef<any>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
   const formatJson = (jsonString: string) => {
@@ -47,7 +46,6 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange, isReadOnly = f
             if (onChange) onChange('');
           }
         }}
-        ref={editorRef}
       />
     </div>
   );
