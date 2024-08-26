@@ -26,6 +26,12 @@ const ClientMethods: React.FC<ClientMethodsProps> = ({ value, onChange }) => {
         <option value="PUT" className={styles.select}>
           PUT
         </option>
+        <option value="DELETE" className={styles.select}>
+          DELETE
+        </option>
+        <option value="PATCH" className={styles.select}>
+          PATCH
+        </option>
       </select>
     </div>
   );
