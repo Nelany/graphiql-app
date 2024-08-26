@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import initTranslations from '../../i18n';
 import styles from './page.module.css';
+import { decode64 } from '@/utils/base64';
+import RestFull from '@/components/Clients/RESTfull/RestFull';
 
 type Props = {
   params: {
@@ -18,6 +20,15 @@ export default async function RESTGraphQL(props: Props) {
   const { searchParams } = props;
   const { t } = await initTranslations(locale, ['RESTGraphQL']);
   const slugPath = slug.join('/');
+  const method = slug[0];
+  const endpoint = slug[1] ? decode64(slug[1]) : '';
+  const headers =
+    Object.keys(searchParams).length > 0
+      ? Object.entries(searchParams).map(([key, value]) => {
+          return { key: key, value: value };
+        })
+      : undefined;
+  const body = slug[2] ? decode64(slug[2]) : '';
 
   const queryParams =
     Object.keys(searchParams).length > 0 ? (
@@ -37,6 +48,7 @@ export default async function RESTGraphQL(props: Props) {
         <h3 className={classNames(styles.h2, styles['light-purple-text'])}>{t('queryParametersTittle')}</h3>
         {queryParams}
       </div>
+      <RestFull method={method} endpoint={endpoint} body={body} headers={headers} />
     </main>
   );
 }

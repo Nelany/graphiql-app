@@ -9,7 +9,7 @@ import { langs } from '@uiw/codemirror-extensions-langs';
 import { material } from '@uiw/codemirror-theme-material';
 
 interface JsonEditorProps {
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
 }
 
@@ -34,7 +34,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ value, onChange }) => {
     <div>
       <p>{errorMessage}</p>
       <CodeMirror
-        value={value}
+        value={value || ''}
         height="400px"
         theme={material}
         extensions={[langs.json()]}

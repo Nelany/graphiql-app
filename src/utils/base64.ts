@@ -1,4 +1,3 @@
-import { encode as base64Encode, decode as base64Decode } from 'base-64';
+export const encode64 = (str: string): string => Buffer.from(str).toString('base64');
 
-export const encode = (str: string): string => base64Encode(str);
-export const decode = (str: string): string => base64Decode(str);
+export const decode64 = (str: string): string => Buffer.from(str, 'base64').toString('utf-8');
