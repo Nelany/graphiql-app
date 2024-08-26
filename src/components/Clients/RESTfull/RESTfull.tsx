@@ -30,10 +30,14 @@ export default function RestFull({ method, endpoint, headers, body, locale }: Re
   const [requestHeaders, setRequestHeaders] = useState<Header[]>(headers || []);
   const [requestBody, setRequestBody] = useState(body);
 
+  const prepareHeadersParams = (headersArray: Header[]) => {
+    return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
+  };
+
   useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
     const encodedBody = requestBody ? encode64(requestBody) : '';
-    const encodedHeaders = requestHeaders.length > 0 ? requestHeaders.map((val) => Object.values(val)) : '';
+    const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : '';
     const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = selectedMethod ? `/${selectedMethod}` : '';
     const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '';
