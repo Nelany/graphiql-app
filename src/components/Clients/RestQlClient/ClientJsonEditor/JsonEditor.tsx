@@ -1,10 +1,7 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
-import 'codemirror/mode/javascript/javascript';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { material } from '@uiw/codemirror-theme-material';
 
