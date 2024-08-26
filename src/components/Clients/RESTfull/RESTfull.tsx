@@ -43,9 +43,8 @@ export default function RestFull({ method, endpoint, headers, body }: RestFullPr
     const pathEncodedBody = encodedBody ? `/${encodedBody}` : '';
     const pathQuery = encodedHeaders ? `?${query}` : '';
     const path = pathMethod + pathEncodedUrl + pathEncodedBody + pathQuery;
-    console.log(path);
 
-    router.push(path);
+    // router.push(path);
   }, [selectedMethod, endpointUrl, requestHeaders, requestBody, router]);
 
   return (
