@@ -1,6 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from 'firebase/auth';
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAP9wLmWoDazRiz1t55WuNSObhX7m_DUZw',
@@ -18,9 +24,10 @@ const db = getFirestore(app);
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-    console.error(error);
+    const user = await signInWithEmailAndPassword(auth, email, password);
+    return user;
+  } catch (error: unknown) {
+    return error;
   }
 };
 
@@ -28,14 +35,15 @@ const registerWithEmailAndPassword = async (name: string, email: string, passwor
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
+    await updateProfile(user, { displayName: name });
     await addDoc(collection(db, 'users'), {
       uid: user.uid,
       name,
       authProvider: 'local',
       email,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (error: unknown) {
+    return error;
   }
 };
 
@@ -43,4 +51,4 @@ const logout = () => {
   signOut(auth);
 };
 
-export { auth, db, logInWithEmailAndPassword, registerWithEmailAndPassword, logout };
+export { auth, db, logInWithEmailAndPassword, logout, registerWithEmailAndPassword };

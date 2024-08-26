@@ -1,10 +1,11 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { registerWithEmailAndPassword } from '../../../firebase';
 import styles from './SignUpForm.module.css';
-import { useRouter } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
 
 interface SignUpFormData {
   name: string;
@@ -24,7 +25,12 @@ export default function SignUpForm() {
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     const { name, email, password } = data;
-    await registerWithEmailAndPassword(name, email, password);
+    const signUpResponse = await registerWithEmailAndPassword(name, email, password);
+    if (signUpResponse instanceof Error) {
+      toast.error(signUpResponse.message);
+      return;
+    }
+
     router.push('/');
   };
 
