@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import initTranslations from '../../i18n';
 import styles from './page.module.css';
 import { decode64 } from '../../../src/utils/base64';
-import RestFull from '../../../src/components/Clients/RESTfull/RESTFull';
+import RestFull from '../../../src/components/Clients/RESTfull/RESTfull';
 import { redirect } from 'next/navigation';
 
 type Props = {
