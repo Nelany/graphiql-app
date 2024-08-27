@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import { redirect } from 'next/navigation';
 import initTranslations from '../../i18n';
 import styles from './page.module.css';
-import { redirect } from 'next/navigation';
 import RestFull from '@/components/Clients/RESTfull/RESTfull';
 import { decode64 } from '@/utils/base64';
 import GraphQL from '@/components/Clients/GraphQL/GraphQl';
