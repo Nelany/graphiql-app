@@ -1,5 +1,6 @@
 {
-  "tittle": "This is a REST/GraphQL page!",
+  "tittleRest": "This is a REST page!",
+  "tittleGraphQL": "This is a GraphQL page!",
   "slug": "Slug: ",
   "queryParametersTittle": "Query Parameters: ",
   "noQueryParameters": "There are no queryParams!"

@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { redirect } from 'next/navigation';
 import initTranslations from '../../i18n';
 import styles from './page.module.css';
 import { redirect } from 'next/navigation';
@@ -38,6 +39,10 @@ export default async function RESTGraphQL(props: Props) {
       : undefined;
   const body = slug[2] ? decode64(slug[2].replace('%3D', '=')) : '';
 
+  if (!validSlugs.includes(slug[0])) {
+    redirect('/404');
+  }
+
   const queryParams =
     Object.keys(searchParams).length > 0 ? (
       Object.entries(searchParams).map(([key, value]) => <div key={key}>{`${key}: ${value}`}</div>)
@@ -53,7 +58,7 @@ export default async function RESTGraphQL(props: Props) {
 
   return (
     <main className={styles.main}>
-      <h1>{t('tittle')}</h1>
+      {slug[0] !== 'GRAPHQL' ? <h1>{t('tittleRest')}</h1> : <h1>{t('tittleGraphQL')}</h1>}
       <div className={styles['dark-area']}>
         <h2 className={classNames(styles.h2, styles['light-yellow-text'])}>
           {t('slug')}
