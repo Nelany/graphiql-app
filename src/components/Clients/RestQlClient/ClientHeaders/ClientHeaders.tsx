@@ -15,18 +15,14 @@ interface ClientHeadersProps {
 }
 
 function ClientHeaders({ value, onChange }: ClientHeadersProps) {
-  const [headers, setHeaders] = useState<Header[]>(value);
-
   const addHeader = () => {
-    const newHeaders = [...headers, { key: '', value: '' }];
-    setHeaders(newHeaders);
+    const newHeaders = [...value, { key: '', value: '' }];
     onChange(newHeaders);
   };
 
-  const handleChange = (index: number, field: keyof Header, value: string) => {
-    const newHeaders = [...headers];
-    newHeaders[index][field] = value;
-    setHeaders(newHeaders);
+  const handleChange = (index: number, field: keyof Header, val: string) => {
+    const newHeaders = [...value];
+    newHeaders[index][field] = val;
     onChange(newHeaders);
   };
 
@@ -35,7 +31,7 @@ function ClientHeaders({ value, onChange }: ClientHeadersProps) {
       <button onClick={addHeader} className={styles.buttonAdd}>
         Add Header
       </button>
-      {headers.map((header, index) => (
+      {value.map((header, index) => (
         <ClientHeader key={index} value={header} onChange={(field, value) => handleChange(index, field, value)} />
       ))}
     </div>
