@@ -8,7 +8,6 @@ import GraphQL from '@/components/Clients/GraphQL/GraphQl';
 type Props = {
   params: {
     slug: string[];
-    searchParams?: { [key: string]: string };
     locale: string;
   };
   searchParams: {

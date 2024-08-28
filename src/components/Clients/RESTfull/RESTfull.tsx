@@ -1,14 +1,14 @@
 'use client';
 
+import { encode64 } from '@/utils/base64';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from './RestFull.module.css';
-import ClientMethods from '../RestQlClient/ClientMethods/ClientMethods';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
-import ClientHeaders from '../RestQlClient/ClientHeaders/ClientHeaders';
+import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
 import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
-import { encode64 } from '@/utils/base64';
+import ClientMethods from '../RestQlClient/ClientMethods/ClientMethods';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
+import styles from './RestFull.module.css';
 
 interface Header {
   key: string;
@@ -30,19 +30,27 @@ export default function RestFull({ method, endpoint, headers, body, locale }: Re
   const [requestHeaders, setRequestHeaders] = useState<Header[]>(headers || []);
   const [requestBody, setRequestBody] = useState(body);
 
+  const variables = JSON.parse(localStorage.getItem('restVariables') || '[]');
+  const [requestVariables, setRequestVariables] = useState<Header[]>(variables);
+
   const prepareHeadersParams = (headersArray: Header[]) => {
     return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
   };
 
   useEffect(() => {
+    localStorage.setItem('restVariables', JSON.stringify(requestVariables));
+  }, [requestVariables]);
+
+  useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
     const encodedBody = requestBody ? encode64(JSON.stringify(JSON.parse(requestBody))) : '';
-    const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : '';
+    const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : [];
+
     const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = selectedMethod ? `/${selectedMethod}` : '';
     const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '';
     const pathEncodedBody = encodedBody ? `/${encodedBody}` : '';
-    const pathQuery = encodedHeaders ? `?${query}` : '';
+    const pathQuery = encodedHeaders.length ? `?${query}` : '';
     const localePath = locale ? `/${locale}` : '';
     const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathQuery;
 
@@ -59,7 +67,13 @@ export default function RestFull({ method, endpoint, headers, body, locale }: Re
           <ClientEndpoint value={endpointUrl} onChange={setEndpointUrl} />
           <button className={styles.buttonSend}>Send</button>
         </div>
-        <ClientHeaders value={requestHeaders} onChange={setRequestHeaders} />
+        <KeyValueInputs
+          value={requestVariables}
+          onChange={setRequestVariables}
+          buttonTitle="Add Variable"
+          placeholder="VARIABLE"
+        />
+        <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} />
         <JsonEditor value={requestBody} onChange={setRequestBody} />
       </div>
       <h4>{t('restfull:response')}</h4>

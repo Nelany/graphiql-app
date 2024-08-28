@@ -1,18 +1,19 @@
 'use client';
 
-import styles from './ClientHeader.module.css';
+import styles from './KeyValueInput.module.css';
 
-interface Header {
+interface KeyValueInput {
   key: string;
   value: string;
 }
 
-interface ClientHeaderProps {
-  value: Header;
-  onChange: (field: keyof Header, value: string) => void;
+interface KeyValueInputProps {
+  value: KeyValueInput;
+  onChange: (field: keyof KeyValueInput, value: string) => void;
+  placeholder?: string;
 }
 
-function ClientHeader({ value, onChange }: ClientHeaderProps) {
+function KeyValueInput({ value, onChange, placeholder }: KeyValueInputProps) {
   const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange('key', e.target.value);
   };
@@ -27,7 +28,7 @@ function ClientHeader({ value, onChange }: ClientHeaderProps) {
         value={value.key}
         className={styles.inputField}
         type="text"
-        placeholder="HEADER"
+        placeholder={placeholder || 'HEADER'}
         onChange={handleKeyChange}
       />
       <input
@@ -41,4 +42,4 @@ function ClientHeader({ value, onChange }: ClientHeaderProps) {
   );
 }
 
-export default ClientHeader;
+export default KeyValueInput;
