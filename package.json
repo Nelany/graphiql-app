@@ -12,7 +12,11 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@uiw/codemirror-extensions-langs": "^4.23.0",
+    "@uiw/codemirror-theme-material": "^4.23.0",
+    "@uiw/react-codemirror": "^4.23.0",
     "classnames": "^2.5.1",
+    "codemirror": "^5.65.17",
     "firebase": "^10.13.0",
     "i18next": "^23.14.0",
     "i18next-resources-to-backend": "^1.2.1",
@@ -30,6 +34,8 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
+    "@types/base-64": "^1.0.2",
+    "@types/codemirror": "^5.60.15",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
