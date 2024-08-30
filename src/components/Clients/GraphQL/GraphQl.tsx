@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './GraphQl.module.css';
-import ClientMethods from '../RestQlClient/ClientMethods/ClientMethods';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
 import ClientHeaders from '../RestQlClient/ClientHeaders/ClientHeaders';
 import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import { encode64 } from '@/utils/base64';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
+import GraphQLDocs from '../RestQlClient/GraphQLDocs/GraphQLDocs';
+import Image from 'next/image';
 
 interface Header {
   key: string;
@@ -33,6 +34,12 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
     return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
   };
 
+  const [isDocsVisible, setIsDocsVisible] = useState(false);
+
+  const toggleDocsVisibility = () => {
+    setIsDocsVisible(!isDocsVisible);
+  };
+
   useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
     const encodedBody = requestBody ? encode64(JSON.stringify(JSON.parse(requestBody))) : '';
@@ -51,19 +58,32 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
   }, [endpointUrl, requestHeaders, requestBody, locale]);
 
   return (
-    <div className={styles.resfullContainer}>
-      <div className={styles.editFieldContainer}>
-        <div className={styles.methodEndContainer}>
-          <ClientEndpoint value={endpointUrl} onChange={setEndpointUrl} />
-          <button className={styles.buttonSend}>Send</button>
-        </div>
-        <ClientHeaders value={requestHeaders} onChange={setRequestHeaders} />
-        <JsonEditor value={requestBody} onChange={setRequestBody} />
+    <div className={styles.resfullWrapper}>
+      <div className={styles.resfullDocsWrapper}>
+        <Image
+          className={styles.resfullDocsIcon}
+          src="/list_document_icon.png"
+          alt="list-icon"
+          width={60}
+          height={60}
+          onClick={toggleDocsVisibility}
+        />
+        {isDocsVisible && <GraphQLDocs />}
       </div>
-      <h4>{t('restfull:response')}</h4>
-      <div className={styles.editFieldContainer}>
-        <ResponseStatus status={200} />
-        <JsonEditor isReadOnly={true} />
+      <div className={styles.resfullContainer}>
+        <div className={styles.editFieldContainer}>
+          <div className={styles.methodEndContainer}>
+            <ClientEndpoint value={endpointUrl} onChange={setEndpointUrl} />
+            <button className={styles.buttonSend}>Send</button>
+          </div>
+          <ClientHeaders value={requestHeaders} onChange={setRequestHeaders} />
+          <JsonEditor value={requestBody} onChange={setRequestBody} />
+        </div>
+        <h4>{t('restfull:response')}</h4>
+        <div className={styles.editFieldContainer}>
+          <ResponseStatus status={200} />
+          <JsonEditor isReadOnly={true} />
+        </div>
       </div>
     </div>
   );

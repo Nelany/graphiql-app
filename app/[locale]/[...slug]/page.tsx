@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { redirect } from 'next/navigation';
 import initTranslations from '../../i18n';
 import styles from './page.module.css';
@@ -23,7 +22,6 @@ export default async function RESTGraphQL(props: Props) {
   const { slug, locale } = props.params;
   const { searchParams } = props;
   const { t } = await initTranslations(locale, ['RESTGraphQL']);
-  const slugPath = slug.join('/');
   if (!validSlugs.includes(slug[0])) {
     redirect('/404');
   }
@@ -55,18 +53,5 @@ export default async function RESTGraphQL(props: Props) {
       <RestFull method={method} endpoint={endpoint} body={body} headers={headers} locale={locale} />
     );
 
-  return (
-    <main className={styles.main}>
-      {slug[0] !== 'GRAPHQL' ? <h1>{t('tittleRest')}</h1> : <h1>{t('tittleGraphQL')}</h1>}
-      <div className={styles['dark-area']}>
-        <h2 className={classNames(styles.h2, styles['light-yellow-text'])}>
-          {t('slug')}
-          {slugPath}
-        </h2>
-        <h3 className={classNames(styles.h2, styles['light-purple-text'])}>{t('queryParametersTittle')}</h3>
-        {queryParams}
-      </div>
-      {restQlPage}
-    </main>
-  );
+  return <main className={styles.main}>{restQlPage}</main>;
 }
