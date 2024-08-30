@@ -1,16 +1,12 @@
 'use client';
 
+import { KeyValue } from '@/Types/Types';
 import KeyValueInput from './KeyValueInput/KeyValueInput';
 import styles from './KeyValueInputs.module.css';
 
-interface Input {
-  key: string;
-  value: string;
-}
-
 interface KeyValueInputsProps {
-  value: Input[];
-  onChange: (value: Input[]) => void;
+  value: KeyValue[];
+  onChange: (value: KeyValue[]) => void;
   buttonTitle?: string;
   placeholder?: string;
 }
@@ -21,7 +17,7 @@ function KeyValueInputs({ value, onChange, buttonTitle, placeholder }: KeyValueI
     onChange(newItems);
   };
 
-  const handleChange = (index: number, field: keyof Input, val: string) => {
+  const handleChange = (index: number, field: keyof KeyValue, val: string) => {
     const newItems = [...value];
     newItems[index][field] = val;
     onChange(newItems);

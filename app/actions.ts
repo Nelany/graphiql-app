@@ -1,5 +1,3 @@
-import { toast } from 'react-toastify';
-
 export const fetchData = async (
   method: string,
   url: string | undefined,
@@ -8,10 +6,9 @@ export const fetchData = async (
 ) => {
   'use server';
   if (!url) {
-    toast.error('URL is required');
+    console.warn('URL is required');
     return;
   }
-  console.warn(method, url, body, headers);
   const options: RequestInit = {
     method,
     headers:
@@ -20,13 +17,17 @@ export const fetchData = async (
             headers.filter(({ key, value }) => key !== '' && value !== '').map(({ key, value }) => [key, value])
           )
         : undefined,
-    body: body ? JSON.stringify(body) : undefined,
+    body: body || undefined,
   };
-  const response = await fetch(url, options);
-  if (!response.ok || (response.status >= 400 && response.status < 600)) {
-    toast.error(`Network response was not ok: ${response.status} ${response.statusText}`);
-    return;
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok || (response.status >= 400 && response.status < 600)) {
+      console.error(`Network response was not ok: ${response.status} ${response.statusText}`);
+      return { response: undefined, status: response.status, statusText: response.statusText };
+    }
+    const data = await response.json();
+    return { response: data, status: response.status, statusText: response.statusText };
+  } catch (error) {
+    return { response: undefined, status: 500, statusText: (error as Error).message };
   }
-  const data = await response.json();
-  return { response: data, status: response.status, statusText: response.statusText };
 };

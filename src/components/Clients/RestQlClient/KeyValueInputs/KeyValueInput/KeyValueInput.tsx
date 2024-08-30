@@ -1,15 +1,11 @@
 'use client';
 
+import { KeyValue } from '@/Types/Types';
 import styles from './KeyValueInput.module.css';
 
-interface KeyValueInput {
-  key: string;
-  value: string;
-}
-
 interface KeyValueInputProps {
-  value: KeyValueInput;
-  onChange: (field: keyof KeyValueInput, value: string) => void;
+  value: KeyValue;
+  onChange: (field: keyof KeyValue, value: string) => void;
   placeholder?: string;
 }
 
