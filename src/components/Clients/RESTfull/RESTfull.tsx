@@ -4,10 +4,10 @@ import { encode64 } from '@/utils/base64';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
-import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
 import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import ClientMethods from '../RestQlClient/ClientMethods/ClientMethods';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
+import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
 import styles from './RestFull.module.css';
 
 interface Header {
@@ -15,7 +15,19 @@ interface Header {
   value: string;
 }
 
-interface RestFullProps {
+interface FetchDataResponse<T> {
+  response: T;
+  status: number;
+  statusText: string;
+}
+
+interface RestFullProps<T> {
+  fetchData: (
+    method: string,
+    url: string | undefined,
+    body: string | undefined,
+    headers: Header[] | undefined
+  ) => Promise<FetchDataResponse<T> | undefined>;
   method: string;
   endpoint?: string;
   headers?: Header[];
@@ -23,22 +35,25 @@ interface RestFullProps {
   locale: string;
 }
 
-export default function RestFull({ method, endpoint, headers, body, locale }: RestFullProps) {
+export default function RestFull<T>({ fetchData, method, endpoint, headers, body, locale }: RestFullProps<T>) {
   const { t } = useTranslation();
   const [selectedMethod, setSelectedMethod] = useState(method);
   const [endpointUrl, setEndpointUrl] = useState(endpoint);
   const [requestHeaders, setRequestHeaders] = useState<Header[]>(headers || []);
   const [requestBody, setRequestBody] = useState(body);
+  const [response, setResponse] = useState<FetchDataResponse<T> | undefined>(undefined);
 
-  const variables = JSON.parse(localStorage.getItem('restVariables') || '[]');
-  const [requestVariables, setRequestVariables] = useState<Header[]>(variables);
+  // const variables = JSON.parse(localStorage.getItem('restVariables') || '[]');
+  const [requestVariables, setRequestVariables] = useState<Header[]>([]);
 
   const prepareHeadersParams = (headersArray: Header[]) => {
     return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
   };
 
   useEffect(() => {
-    localStorage.setItem('restVariables', JSON.stringify(requestVariables));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('restVariables', JSON.stringify(requestVariables));
+    }
   }, [requestVariables]);
 
   useEffect(() => {
@@ -59,13 +74,23 @@ export default function RestFull({ method, endpoint, headers, body, locale }: Re
     }
   }, [selectedMethod, endpointUrl, requestHeaders, requestBody, locale]);
 
+  const onSendClick = async () => {
+    const data = await fetchData(selectedMethod, endpointUrl, requestBody, requestHeaders);
+    if (data) {
+      setResponse(data);
+      console.warn(data);
+    }
+  };
+
   return (
     <div className={styles.resfullContainer}>
       <div className={styles.editFieldContainer}>
         <div className={styles.methodEndContainer}>
           <ClientMethods value={selectedMethod} onChange={setSelectedMethod} />
           <ClientEndpoint value={endpointUrl} onChange={setEndpointUrl} />
-          <button className={styles.buttonSend}>Send</button>
+          <button onClick={onSendClick} className={styles.buttonSend}>
+            Send
+          </button>
         </div>
         <KeyValueInputs
           value={requestVariables}
@@ -78,8 +103,8 @@ export default function RestFull({ method, endpoint, headers, body, locale }: Re
       </div>
       <h4>{t('restfull:response')}</h4>
       <div className={styles.editFieldContainer}>
-        <ResponseStatus status={200} />
-        <JsonEditor isReadOnly={true} />
+        <ResponseStatus status={response?.status} />
+        <JsonEditor value={response ? JSON.stringify(response.response, null, 2) : ''} isReadOnly={true} />
       </div>
     </div>
   );
