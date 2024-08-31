@@ -10,6 +10,7 @@ import { encode64 } from '@/utils/base64';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 import GraphQLDocs from '../RestQlClient/GraphQLDocs/GraphQLDocs';
 import Image from 'next/image';
+import ClientEndpointSdl from '../RestQlClient/ClientEndpointSdl/ClientEndpointSdl';
 
 interface Header {
   key: string;
@@ -29,6 +30,7 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
   const [endpointUrl, setEndpointUrl] = useState(endpoint);
   const [requestHeaders, setRequestHeaders] = useState<Header[]>(headers || []);
   const [requestBody, setRequestBody] = useState(body);
+  const [endpointUrlSdl, setEndpointUrlSdl] = useState(endpoint ? `${endpoint}?sdl` : '');
 
   const prepareHeadersParams = (headersArray: Header[]) => {
     return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
@@ -39,6 +41,12 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
   const toggleDocsVisibility = () => {
     setIsDocsVisible(!isDocsVisible);
   };
+
+  useEffect(() => {
+    if (!endpointUrl) {
+      setEndpointUrlSdl('');
+    } else setEndpointUrlSdl(`${endpoint}?sdl`);
+  }, [endpointUrl]);
 
   useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
@@ -77,6 +85,10 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
             <button className={styles.buttonSend}>Send</button>
           </div>
           <ClientHeaders value={requestHeaders} onChange={setRequestHeaders} />
+          <div className={styles.methodEndContainer}>
+            <ClientEndpointSdl value={endpointUrlSdl} />
+            <button className={styles.buttonSend}>Send</button>
+          </div>
           <JsonEditor value={requestBody} onChange={setRequestBody} />
         </div>
         <h4>{t('restfull:response')}</h4>

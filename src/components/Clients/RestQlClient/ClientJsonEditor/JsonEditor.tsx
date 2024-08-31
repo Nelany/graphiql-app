@@ -39,7 +39,7 @@ function JsonEditor({ value, onChange, isReadOnly = false }: JsonEditorProps) {
       <CodeMirror
         readOnly={isReadOnly}
         value={value || ''}
-        height="400px"
+        height="350px"
         theme={material}
         extensions={[langs.json()]}
         autoCorrect="true"
