@@ -97,19 +97,20 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
           <ClientMethods value={selectedMethod} onChange={setSelectedMethod} />
           <ClientEndpoint value={endpointUrl} onChange={setEndpointUrl} />
           <button onClick={onSendClick} className={styles.buttonSend}>
-            Send
+            {t('RESTGraphQL:send')}
           </button>
         </div>
+        <h4>{t('RESTGraphQL:variableMessage')}</h4>
         <KeyValueInputs
           value={requestVariables || []}
           onChange={setRequestVariables}
-          buttonTitle="Add Variable"
-          placeholder="VARIABLE"
+          buttonTitle={t('RESTGraphQL:addVariable')}
+          placeholder={t('RESTGraphQL:variable')}
         />
         <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} />
         <JsonEditor value={requestBody} onChange={setRequestBody} />
       </div>
-      <h4>{t('restfull:response')}</h4>
+      <h4>{t('RESTGraphQL:response')}</h4>
       <div className={styles.editFieldContainer}>
         <ResponseStatus status={response?.status} statusText={response?.statusText} />
         <JsonEditor value={response ? JSON.stringify(response.response, null, 2) : ''} isReadOnly={true} />

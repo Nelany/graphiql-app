@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslation } from 'react-i18next';
 import styles from './ClientEndpoint.module.css';
 
 interface ClientEndpointProps {
@@ -8,6 +9,7 @@ interface ClientEndpointProps {
 }
 
 function ClientEndpoint({ value, onChange }: ClientEndpointProps) {
+  const { t } = useTranslation();
   return (
     <div className={styles.endpointInput}>
       <input
@@ -15,7 +17,7 @@ function ClientEndpoint({ value, onChange }: ClientEndpointProps) {
         value={value || ''}
         onChange={(e) => onChange(e.target.value)}
         className={styles.inputWith}
-        placeholder="URL Endpoint"
+        placeholder={t('RESTGraphQL:urlEndpoint')}
       />
     </div>
   );

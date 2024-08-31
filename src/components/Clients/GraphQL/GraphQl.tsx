@@ -1,16 +1,16 @@
 'use client';
 
+import { encode64 } from '@/utils/base64';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from './GraphQl.module.css';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
-import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
 import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
-import { encode64 } from '@/utils/base64';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 import GraphQLDocs from '../RestQlClient/GraphQLDocs/GraphQLDocs';
 import Image from 'next/image';
 import ClientEndpointSdl from '../RestQlClient/ClientEndpointSdl/ClientEndpointSdl';
+import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
+import styles from './GraphQl.module.css';
 
 interface Header {
   key: string;
@@ -91,7 +91,7 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
           </div>
           <JsonEditor value={requestBody} onChange={setRequestBody} />
         </div>
-        <h4>{t('restfull:response')}</h4>
+        <h4>{t('RESTGraphQL:response')}</h4>
         <div className={styles.editFieldContainer}>
           <ResponseStatus status={200} statusText={undefined} />
           <JsonEditor isReadOnly={true} />

@@ -3,5 +3,14 @@
   "tittleGraphQL": "This is a GraphQL page!",
   "slug": "Slug: ",
   "queryParametersTittle": "Query Parameters: ",
-  "noQueryParameters": "There are no queryParams!"
+  "noQueryParameters": "There are no queryParams!",
+  "response": "Response: ",
+  "variable": "VARIABLE",
+  "addVariable": "Add Variable",
+  "send": "Send",
+  "addHeader": "Add Header",
+  "header": "HEADER",
+  "value": "VALUE",
+  "urlEndpoint": "URL Endpoint",
+  "variableMessage": "String variables must be enclosed in quotes. Example: \"value\". Numeric and boolean variables must be written without quotes. Examples: 123, true, false."
 }

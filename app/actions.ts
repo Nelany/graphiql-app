@@ -6,14 +6,10 @@ export const fetchData = async (
 ) => {
   'use server';
   if (!url) {
-    // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
     return { response: undefined, status: 0, statusText: 'URL is required' };
   }
 
   if (method === 'GET' && body) {
-    // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
     return { response: undefined, status: 0, statusText: 'GET requests should not have a body' };
   }
   const options: RequestInit = {
@@ -29,13 +25,11 @@ export const fetchData = async (
   try {
     const response = await fetch(url, options);
     if (!response.ok || (response.status >= 400 && response.status < 600)) {
-      // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
       return { response: undefined, status: response.status, statusText: response.statusText };
     }
     const data = await response.json();
     return { response: data, status: response.status, statusText: response.statusText };
   } catch (error) {
-    // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     return { response: undefined, status: 0, statusText: (error as Error).message };
   }
 };

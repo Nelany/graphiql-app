@@ -1,6 +1,7 @@
 'use client';
 
 import { KeyValue } from '@/Types/Types';
+import { useTranslation } from 'react-i18next';
 import KeyValueInput from './KeyValueInput/KeyValueInput';
 import styles from './KeyValueInputs.module.css';
 
@@ -12,6 +13,8 @@ interface KeyValueInputsProps {
 }
 
 function KeyValueInputs({ value, onChange, buttonTitle, placeholder }: KeyValueInputsProps) {
+  const { t } = useTranslation();
+
   const addItem = () => {
     const newItems = [...value, { key: '', value: '' }];
     onChange(newItems);
@@ -26,7 +29,7 @@ function KeyValueInputs({ value, onChange, buttonTitle, placeholder }: KeyValueI
   return (
     <div className={styles.headersContainer}>
       <button onClick={addItem} className={styles.buttonAdd}>
-        {buttonTitle || 'Add Header'}
+        {buttonTitle || t('RESTGraphQL:addHeader')}
       </button>
       {value.map((item, index) => (
         <KeyValueInput

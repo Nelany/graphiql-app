@@ -1,6 +1,16 @@
 {
-  "tittle": "Это страница REST/GraphQL!",
+  "tittleRest": "Это REST страница!",
+  "tittleGraphQL": "Это GraphQL страница!",
   "slug": "Слаг: ",
   "queryParametersTittle": "Параметры запроса: ",
-  "noQueryParameters": "Параметры запроса не заданы!"
+  "noQueryParameters": "Параметры запроса не заданы!",
+  "response": "Ответ: ",
+  "variable": "ПЕРЕМЕННАЯ",
+  "addVariable": "Добавить переменную",
+  "send": "Отправить",
+  "addHeader": "Добавить заголовок",
+  "header": "ЗАГОЛОВОК",
+  "value": "ЗНАЧЕНИЕ",
+  "urlEndpoint": "URL конечная точка",
+  "variableMessage": "Строковые переменные должны быть заключены в кавычки. Пример: \"value\". Числовые и булевые переменные должны быть записаны без кавычек. Примеры: 123, true, false."
 }

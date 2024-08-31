@@ -2,6 +2,7 @@
 
 import { KeyValue } from '@/Types/Types';
 import styles from './KeyValueInput.module.css';
+import { useTranslation } from 'react-i18next';
 
 interface KeyValueInputProps {
   value: KeyValue;
@@ -10,6 +11,7 @@ interface KeyValueInputProps {
 }
 
 function KeyValueInput({ value, onChange, placeholder }: KeyValueInputProps) {
+  const { t } = useTranslation();
   const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange('key', e.target.value);
   };
@@ -24,14 +26,14 @@ function KeyValueInput({ value, onChange, placeholder }: KeyValueInputProps) {
         value={value.key}
         className={styles.inputField}
         type="text"
-        placeholder={placeholder || 'HEADER'}
+        placeholder={placeholder || t('RESTGraphQL:header')}
         onChange={handleKeyChange}
       />
       <input
         value={value.value}
         className={styles.inputField}
         type="text"
-        placeholder="VALUE"
+        placeholder={t('RESTGraphQL:value')}
         onChange={handleValueChange}
       />
     </div>
