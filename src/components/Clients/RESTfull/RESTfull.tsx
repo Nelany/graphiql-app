@@ -81,7 +81,7 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
     if (data) {
       if (data.status === 0) {
         toast.error(data.statusText, {
-          autoClose: false,
+          autoClose: 10000,
           closeOnClick: true,
         });
         return;
