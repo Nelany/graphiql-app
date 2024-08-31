@@ -1,0 +1,9 @@
+.endpointInput {
+  display: flex;
+  flex-grow: 1;
+  min-width: 200px;
+}
+
+.inputWith {
+  flex-grow: 1;
+}
