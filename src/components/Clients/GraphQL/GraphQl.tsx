@@ -86,7 +86,7 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
           </div>
           <ClientHeaders value={requestHeaders} onChange={setRequestHeaders} />
           <div className={styles.methodEndContainer}>
-            <ClientEndpointSdl value={endpointUrlSdl} />
+            <ClientEndpointSdl value={endpointUrlSdl} onChange={setEndpointUrlSdl} />
             <button className={styles.buttonSend}>Send</button>
           </div>
           <JsonEditor value={requestBody} onChange={setRequestBody} />
