@@ -1,18 +1,17 @@
 'use client';
 
-import styles from './ClientHeader.module.css';
+import { KeyValue } from '@/Types/Types';
+import styles from './KeyValueInput.module.css';
+import { useTranslation } from 'react-i18next';
 
-interface Header {
-  key: string;
-  value: string;
+interface KeyValueInputProps {
+  value: KeyValue;
+  onChange: (field: keyof KeyValue, value: string) => void;
+  placeholder?: string;
 }
 
-interface ClientHeaderProps {
-  value: Header;
-  onChange: (field: keyof Header, value: string) => void;
-}
-
-function ClientHeader({ value, onChange }: ClientHeaderProps) {
+function KeyValueInput({ value, onChange, placeholder }: KeyValueInputProps) {
+  const { t } = useTranslation();
   const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange('key', e.target.value);
   };
@@ -27,18 +26,18 @@ function ClientHeader({ value, onChange }: ClientHeaderProps) {
         value={value.key}
         className={styles.inputField}
         type="text"
-        placeholder="HEADER"
+        placeholder={placeholder || t('RESTGraphQL:header')}
         onChange={handleKeyChange}
       />
       <input
         value={value.value}
         className={styles.inputField}
         type="text"
-        placeholder="VALUE"
+        placeholder={t('RESTGraphQL:value')}
         onChange={handleValueChange}
       />
     </div>
   );
 }
 
-export default ClientHeader;
+export default KeyValueInput;

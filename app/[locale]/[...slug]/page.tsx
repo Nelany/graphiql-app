@@ -1,14 +1,15 @@
-import { redirect } from 'next/navigation';
-import initTranslations from '../../i18n';
-import styles from './page.module.css';
+import GraphQL from '@/components/Clients/GraphQL/GraphQl';
 import RestFull from '@/components/Clients/RESTfull/RESTfull';
 import { decode64 } from '@/utils/base64';
-import GraphQL from '@/components/Clients/GraphQL/GraphQl';
+import classNames from 'classnames';
+import { redirect } from 'next/navigation';
+import { fetchData } from '../../actions';
+import initTranslations from '../../i18n';
+import styles from './page.module.css';
 
 type Props = {
   params: {
     slug: string[];
-    searchParams?: { [key: string]: string };
     locale: string;
   };
   searchParams: {
@@ -50,7 +51,14 @@ export default async function RESTGraphQL(props: Props) {
     slug[0] === 'GRAPHQL' ? (
       <GraphQL method={method} endpoint={endpoint} body={body} headers={headers} locale={locale} />
     ) : (
-      <RestFull method={method} endpoint={endpoint} body={body} headers={headers} locale={locale} />
+      <RestFull
+        fetchData={fetchData}
+        method={method}
+        endpoint={endpoint}
+        body={body}
+        headers={headers}
+        locale={locale}
+      />
     );
 
   return <main className={styles.main}>{restQlPage}</main>;

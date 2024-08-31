@@ -24,7 +24,6 @@ export default async function Home({ params: { locale } }: Props) {
         <NavButton className={['main-nav-button']} isUser={false} rout="/SignIn" text={'home:buttonSignIn'} />
         <NavButton className={['main-nav-button']} isUser={false} rout="/SignUp" text={'home:buttonSignUp'} />
       </div>
-      {/* <h1>{t('header')}</h1> */}
       <Greeting />
       <div className={styles['dark-area']}>
         <h2>The code window might look like this)</h2>

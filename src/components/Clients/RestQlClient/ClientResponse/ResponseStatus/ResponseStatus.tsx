@@ -1,13 +1,21 @@
 'use client';
 
+import { useTranslation } from 'react-i18next';
+
 interface Props {
-  status: number;
+  status: number | undefined;
+  statusText: string | undefined;
 }
 
-function ResponseStatus(prop: Props) {
+function ResponseStatus({ status, statusText }: Props) {
+  const { t } = useTranslation();
   return (
     <div>
-      <p>Status: {prop.status}</p>
+      <span>
+        {t('RESTGraphQL:status')}
+        {status ? `${status}. ` : ''}
+      </span>
+      <span>{statusText ? `${statusText}.` : ''}</span>
     </div>
   );
 }
