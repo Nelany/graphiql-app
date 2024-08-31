@@ -93,7 +93,7 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
         </div>
         <h4>{t('restfull:response')}</h4>
         <div className={styles.editFieldContainer}>
-          <ResponseStatus status={200} />
+          <ResponseStatus status={200} statusText={undefined} />
           <JsonEditor isReadOnly={true} />
         </div>
       </div>

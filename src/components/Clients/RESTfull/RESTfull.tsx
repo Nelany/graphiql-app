@@ -5,6 +5,8 @@ import { encode64 } from '@/utils/base64';
 import { replaceVariables } from '@/utils/replaceVariables';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
 import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import ClientMethods from '../RestQlClient/ClientMethods/ClientMethods';
@@ -77,6 +79,13 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
     const newBody = replaceVariables(requestBody, requestVariables);
     const data = await fetchData(selectedMethod, endpointUrl, newBody, requestHeaders);
     if (data) {
+      if (data.status === 0) {
+        toast.error(data.statusText, {
+          autoClose: false,
+          closeOnClick: true,
+        });
+        return;
+      }
       setResponse(data);
     }
   };
@@ -102,7 +111,7 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
       </div>
       <h4>{t('restfull:response')}</h4>
       <div className={styles.editFieldContainer}>
-        <ResponseStatus status={response?.status} />
+        <ResponseStatus status={response?.status} statusText={response?.statusText} />
         <JsonEditor value={response ? JSON.stringify(response.response, null, 2) : ''} isReadOnly={true} />
       </div>
     </div>

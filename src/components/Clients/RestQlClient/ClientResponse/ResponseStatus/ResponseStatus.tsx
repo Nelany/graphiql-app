@@ -2,12 +2,14 @@
 
 interface Props {
   status: number | undefined;
+  statusText: string | undefined;
 }
 
-function ResponseStatus(prop: Props) {
+function ResponseStatus({ status, statusText }: Props) {
   return (
     <div>
-      <p>Status: {prop.status || ''}</p>
+      <span>Status: {status ? `${status}. ` : ''}</span>
+      <span>{statusText ? `${statusText}.` : ''}</span>
     </div>
   );
 }
