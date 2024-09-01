@@ -2,6 +2,7 @@
 
 import { KeyValue } from '@/Types/Types';
 import { encode64 } from '@/utils/base64';
+import { LSGetItem, LSSetItem } from '@/utils/LSHelpers';
 import { replaceVariables } from '@/utils/replaceVariables';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -49,12 +50,11 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
 
   useEffect(() => {
     if (!requestVariables) {
-      const variables = JSON.parse(localStorage?.getItem('restVariables') || '[]');
-      setRequestVariables(variables);
+      setRequestVariables(LSGetItem('restVariables') || []);
       return;
     }
     const sanitizedVariables = requestVariables.filter((val) => val.key);
-    localStorage?.setItem('restVariables', JSON.stringify(sanitizedVariables));
+    LSSetItem('restVariables', sanitizedVariables);
   }, [requestVariables]);
 
   useEffect(() => {
@@ -88,17 +88,17 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
       }
       setResponse(data);
       const currentUrl = window.location.href;
-      const history = localStorage.getItem('history');
-      let routeHistory = history ? JSON.parse(history) : [];
+
+      let history = LSGetItem('history') || [];
 
       const currentEntry = {
         url: currentUrl,
         variables: requestVariables,
       };
 
-      routeHistory.unshift(currentEntry);
+      history.unshift(currentEntry);
 
-      localStorage.setItem('history', JSON.stringify(routeHistory));
+      LSSetItem('history', history);
     }
   };
 

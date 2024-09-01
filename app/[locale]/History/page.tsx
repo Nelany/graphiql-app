@@ -1,12 +1,13 @@
 'use client';
 
+import { NavButton } from '@/components/NavButton/NavButton';
 import { KeyValue } from '@/Types/Types';
+import { LSGetItem, LSSetItem } from '@/utils/LSHelpers';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './page.module.css';
-import { NavButton } from '@/components/NavButton/NavButton';
 
 interface HistoryEntry {
   url: string;
@@ -18,16 +19,11 @@ export default function History() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const historyData = localStorage.getItem('history');
-      if (historyData) {
-        setHistory(JSON.parse(historyData));
-      }
-    }
+    setHistory(LSGetItem('history') || []);
   }, []);
 
   const handleLinkClick = (variables: KeyValue[]) => {
-    localStorage.setItem('restVariables', JSON.stringify(variables));
+    LSSetItem('restVariables', variables);
   };
 
   return (
