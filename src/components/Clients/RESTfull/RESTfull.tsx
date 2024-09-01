@@ -71,7 +71,7 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
     const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathQuery;
 
     if (typeof window !== 'undefined') {
-      window.history.pushState(null, '', path);
+      window.history.replaceState(null, '', path);
     }
   }, [selectedMethod, endpointUrl, requestHeaders, requestBody, locale]);
 
@@ -91,7 +91,12 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
       const history = localStorage.getItem('history');
       let routeHistory = history ? JSON.parse(history) : [];
 
-      routeHistory.unshift(currentUrl);
+      const currentEntry = {
+        url: currentUrl,
+        variables: requestVariables,
+      };
+
+      routeHistory.unshift(currentEntry);
 
       localStorage.setItem('history', JSON.stringify(routeHistory));
     }
