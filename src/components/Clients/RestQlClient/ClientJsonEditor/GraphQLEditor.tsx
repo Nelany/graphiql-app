@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import CodeMirror from '@uiw/react-codemirror';
-import { material } from '@uiw/codemirror-theme-material';
-import { graphql } from 'cm6-graphql';
 import { autocompletion, closeBrackets } from '@codemirror/autocomplete';
-import { bracketMatching, syntaxHighlighting } from '@codemirror/language';
+import { bracketMatching } from '@codemirror/language';
+import { material } from '@uiw/codemirror-theme-material';
+import CodeMirror from '@uiw/react-codemirror';
+import { useEffect, useRef, useState } from 'react';
 
 function formatGraphQLString(graphqlString: string): string {
   const addIndentation = (level: number) => '  '.repeat(level);
@@ -81,7 +80,7 @@ function GraphEditor({ value, onChange, isReadOnly = false }: JsonEditorProps) {
         value={value || ''}
         height="350px"
         theme={material}
-        extensions={[bracketMatching(), closeBrackets(), autocompletion(), graphql()]}
+        extensions={[bracketMatching(), closeBrackets(), autocompletion()]}
         autoCorrect="true"
         onBlur={(val) => {
           if (val.target.textContent) {
