@@ -11,6 +11,7 @@ import Image from 'next/image';
 import ClientEndpointSdl from '../RestQlClient/ClientEndpointSdl/ClientEndpointSdl';
 import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
 import styles from './GraphQl.module.css';
+import GraphEditor from '../RestQlClient/ClientJsonEditor/GraphQLEditor';
 
 interface Header {
   key: string;
@@ -50,7 +51,7 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
 
   useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
-    const encodedBody = requestBody ? encode64(JSON.stringify(JSON.parse(requestBody))) : '';
+    const encodedBody = requestBody ? encode64(requestBody) : '';
     const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : '';
     const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = '/GRAPHQL';
@@ -89,7 +90,7 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
             <ClientEndpointSdl value={endpointUrlSdl} onChange={setEndpointUrlSdl} />
             <button className={styles.buttonSend}>Send</button>
           </div>
-          <JsonEditor value={requestBody} onChange={setRequestBody} />
+          <GraphEditor value={requestBody} onChange={setRequestBody} />
         </div>
         <h4>{t('RESTGraphQL:response')}</h4>
         <div className={styles.editFieldContainer}>
