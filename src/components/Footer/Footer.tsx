@@ -23,7 +23,7 @@ export default function Footer() {
         href="https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/final.md"
         className={styles.logoLink}
       >
-        <Image src="/rsLogo.jpg" alt="logo" width={70} height={70} priority />
+        <Image src="/rss-logo.svg" alt="logo" width={70} height={70} priority />
       </a>
     </footer>
   );
