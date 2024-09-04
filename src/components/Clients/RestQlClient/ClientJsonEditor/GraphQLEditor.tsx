@@ -1,48 +1,11 @@
 'use client';
 
-import { autocompletion, closeBrackets } from '@codemirror/autocomplete';
-import { bracketMatching } from '@codemirror/language';
+import { javascript } from '@codemirror/lang-javascript';
 import { material } from '@uiw/codemirror-theme-material';
 import CodeMirror from '@uiw/react-codemirror';
-import { useEffect, useRef, useState } from 'react';
-
-function formatGraphQLString(graphqlString: string): string {
-  const addIndentation = (level: number) => '  '.repeat(level);
-
-  let cleanedString = graphqlString
-    .replace(/\s*([{}()@])/g, '$1')
-    .replace(/\s*([,:])\s*/g, '$1 ')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-  let indentLevel = 0;
-  const formattedLines: string[] = [];
-
-  const splitByBlocks = cleanedString.split(/(\{|\}|\.\.\.|@include|\@skip|@)/).filter(Boolean);
-
-  splitByBlocks.forEach((chunk, index) => {
-    const trimmedChunk = chunk.trim();
-
-    if (trimmedChunk === '{') {
-      formattedLines.push(`${addIndentation(indentLevel)}{`);
-      indentLevel++;
-    } else if (trimmedChunk === '}') {
-      indentLevel = Math.max(indentLevel - 1, 0);
-      formattedLines.push(`${addIndentation(indentLevel)}}`);
-    } else if (trimmedChunk.startsWith('...')) {
-      if (index > 0 && formattedLines[formattedLines.length - 1] !== '') {
-        formattedLines.push('');
-      }
-      formattedLines.push(`${addIndentation(indentLevel)}${trimmedChunk}`);
-    } else if (trimmedChunk.startsWith('@')) {
-      formattedLines.push(`${addIndentation(indentLevel)}${trimmedChunk}`);
-    } else {
-      formattedLines.push(`${addIndentation(indentLevel)}${trimmedChunk}`);
-    }
-  });
-
-  return formattedLines.join('\n').trim();
-}
+import graph from 'prettier/plugins/graphql';
+import prettier from 'prettier/standalone';
+import { useState } from 'react';
 
 interface JsonEditorProps {
   value?: string;
@@ -52,43 +15,35 @@ interface JsonEditorProps {
 
 function GraphEditor({ value, onChange, isReadOnly = false }: JsonEditorProps) {
   const [errorMessage, setErrorMessage] = useState('');
-  const hasFormatted = useRef(false);
+  const [currentValue, setCurrentValue] = useState(value || '');
 
-  const formatJson = (graphQLString: string) => {
+  const onCurrentChange = async (val: string) => {
     try {
-      const formatted = formatGraphQLString(graphQLString);
-      setErrorMessage('');
-      if (onChange) onChange(formatted);
+      const formatted = await prettier.format(val, {
+        parser: 'graphql',
+        plugins: [graph],
+      });
+
+      setCurrentValue(formatted);
     } catch (error) {
-      const errorString = (error as Error).message || 'Cannot parse GraphQL';
-      setErrorMessage(errorString);
-      if (onChange) onChange(graphQLString);
+      setErrorMessage((error as Error).message || 'Cannot parse GraphQL');
     }
   };
-  useEffect(() => {
-    if (!hasFormatted.current && value) {
-      formatJson(value);
-      hasFormatted.current = true;
-    }
-  }, [value]);
+  const onBlur = () => {
+    onChange?.(currentValue);
+  };
 
   return (
     <div>
-      <p>{errorMessage}</p>
+      <pre>{errorMessage}</pre>
       <CodeMirror
         readOnly={isReadOnly}
-        value={value || ''}
         height="350px"
+        value={currentValue || ''}
         theme={material}
-        extensions={[bracketMatching(), closeBrackets(), autocompletion()]}
-        autoCorrect="true"
-        onBlur={(val) => {
-          if (val.target.textContent) {
-            formatJson(val.target.textContent);
-          } else {
-            if (onChange) onChange('');
-          }
-        }}
+        extensions={[javascript()]}
+        onChange={onCurrentChange}
+        onBlur={onBlur}
       />
     </div>
   );
