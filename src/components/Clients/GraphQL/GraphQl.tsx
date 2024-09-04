@@ -1,38 +1,47 @@
 'use client';
 
+import { KeyValue } from '@/Types/Types';
 import { encode64 } from '@/utils/base64';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
 import ClientEndpointSdl from '../RestQlClient/ClientEndpointSdl/ClientEndpointSdl';
 import GraphEditor from '../RestQlClient/ClientJsonEditor/GraphQLEditor';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 import GraphQLDocs from '../RestQlClient/GraphQLDocs/GraphQLDocs';
 import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
+import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import styles from './GraphQl.module.css';
-
-interface Header {
-  key: string;
-  value: string;
-}
-
-interface RestFullProps {
+interface RestFullProps<T> {
   method: string;
   endpoint?: string;
-  headers?: Header[];
+  headers?: KeyValue[];
   body?: string;
   locale: string;
+  fetchData: (
+    method: string,
+    url: string | undefined,
+    body: string | undefined,
+    headers: KeyValue[] | undefined
+  ) => Promise<FetchDataResponse<T> | undefined>;
+}
+interface FetchDataResponse<T> {
+  response: T;
+  status: number;
+  statusText: string;
 }
 
-export default function GraphQL({ endpoint, headers, body, locale }: RestFullProps) {
+export default function GraphQL<T>({ method, endpoint, headers, body, locale, fetchData }: RestFullProps<T>) {
   const { t } = useTranslation();
   const [endpointUrl, setEndpointUrl] = useState(endpoint);
-  const [requestHeaders, setRequestHeaders] = useState<Header[]>(headers || []);
+  const [requestHeaders, setRequestHeaders] = useState<KeyValue[]>(headers || []);
   const [requestBody, setRequestBody] = useState(body);
   const [endpointUrlSdl, setEndpointUrlSdl] = useState(endpoint ? `${endpoint}?sdl` : '');
+  const [response, setResponse] = useState<FetchDataResponse<T> | undefined>(undefined);
 
-  const prepareHeadersParams = (headersArray: Header[]) => {
+  const prepareHeadersParams = (headersArray: KeyValue[]) => {
     return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
   };
 
@@ -51,7 +60,7 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
   useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
     const encodedBody = requestBody ? encode64(requestBody) : '';
-    const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : '';
+    const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : [];
     const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = '/GRAPHQL';
     const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '';
@@ -65,6 +74,19 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
     }
   }, [endpointUrl, requestHeaders, requestBody, locale]);
 
+  const onSendClick = async () => {
+    const data = await fetchData(method, endpointUrl, requestBody, requestHeaders);
+    if (data) {
+      if (data.status === 0) {
+        toast.error(data.statusText, {
+          autoClose: 10000,
+          closeOnClick: true,
+        });
+        return;
+      }
+      setResponse(data);
+    }
+  };
   return (
     <div className={styles.resfullWrapper}>
       <div className={styles.resfullDocsWrapper}>
@@ -82,7 +104,9 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
         <div className={styles.editFieldContainer}>
           <div className={styles.methodEndContainer}>
             <ClientEndpoint value={endpointUrl} onChange={setEndpointUrl} />
-            <button className={styles.buttonSend}>Send</button>
+            <button className={styles.buttonSend} onClick={onSendClick}>
+              Send
+            </button>
           </div>
           <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} />
           <div className={styles.methodEndContainer}>
@@ -93,8 +117,8 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
         </div>
         <h4>{t('RESTGraphQL:response')}</h4>
         <div className={styles.editFieldContainer}>
-          <ResponseStatus status={200} statusText={undefined} />
-          {/* <JsonEditor isReadOnly={true} /> */}
+          <ResponseStatus status={response?.status} statusText={response?.statusText} />
+          <JsonEditor value={response ? JSON.stringify(response.response, null, 2) : ''} isReadOnly={true} />
         </div>
       </div>
     </div>
