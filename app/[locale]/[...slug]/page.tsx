@@ -1,7 +1,6 @@
 import GraphQL from '@/components/Clients/GraphQL/GraphQl';
 import RestFull from '@/components/Clients/RESTfull/RESTfull';
 import { decode64 } from '@/utils/base64';
-import classNames from 'classnames';
 import { redirect } from 'next/navigation';
 import { fetchData } from '../../actions';
 import initTranslations from '../../i18n';
@@ -49,7 +48,14 @@ export default async function RESTGraphQL(props: Props) {
     );
   const restQlPage =
     slug[0] === 'GRAPHQL' ? (
-      <GraphQL method={method} endpoint={endpoint} body={body} headers={headers} locale={locale} />
+      <GraphQL
+        method={method}
+        endpoint={endpoint}
+        body={body}
+        headers={headers}
+        locale={locale}
+        fetchData={fetchData}
+      />
     ) : (
       <RestFull
         fetchData={fetchData}
