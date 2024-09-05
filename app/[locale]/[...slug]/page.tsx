@@ -54,6 +54,7 @@ export default async function RESTGraphQL(props: Props) {
         body={body}
         headers={headers}
         locale={locale}
+        initialVariables={initialVariables}
       />
     );
 

@@ -13,10 +13,10 @@ import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 import GraphQLDocs from '../RestQlClient/GraphQLDocs/GraphQLDocs';
 import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
-import { buildClientSchema, getIntrospectionQuery, GraphQLSchema } from 'graphql';
+import { buildClientSchema, GraphQLSchema } from 'graphql';
 import { fetchSDL } from '../../../../app/actions';
 import styles from './GraphQl.module.css';
-
+import { LSGetItem, LSSetItem } from '@/utils/LSHelpers';
 interface RestFullProps<T> {
   initialVariables: string;
   method: string;
@@ -109,6 +109,13 @@ export default function GraphQL<T>({
         return;
       }
       setResponse(data);
+      const currentUrl = window.location.href;
+
+      let history = LSGetItem('history') || [];
+
+      history.unshift(currentUrl);
+
+      LSSetItem('history', history);
     }
   };
 
