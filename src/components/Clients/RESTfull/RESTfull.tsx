@@ -64,8 +64,8 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
 
     const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = selectedMethod ? `/${selectedMethod}` : '';
-    const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '';
-    const pathEncodedBody = encodedBody ? `/${encodedBody}` : '';
+    const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '/ ';
+    const pathEncodedBody = encodedBody ? `/${encodedBody}` : '/ ';
     const pathQuery = encodedHeaders.length ? `?${query}` : '';
     const localePath = locale ? `/${locale}` : '';
     const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathQuery;

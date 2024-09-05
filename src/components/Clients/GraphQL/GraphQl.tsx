@@ -9,16 +9,16 @@ import { toast } from 'react-toastify';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
 import ClientEndpointSdl from '../RestQlClient/ClientEndpointSdl/ClientEndpointSdl';
 import GraphEditor from '../RestQlClient/ClientJsonEditor/GraphQLEditor';
+import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 import GraphQLDocs from '../RestQlClient/GraphQLDocs/GraphQLDocs';
 import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
 import { buildClientSchema, getIntrospectionQuery, GraphQLSchema } from 'graphql';
-import { toast } from 'react-toastify';
 import { fetchSDL } from '../../../../app/actions';
-import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import styles from './GraphQl.module.css';
-  
+
 interface RestFullProps<T> {
+  initialVariables: string;
   method: string;
   endpoint?: string;
   headers?: KeyValue[];
@@ -37,11 +37,20 @@ interface FetchDataResponse<T> {
   statusText: string;
 }
 
-export default function GraphQL<T>({ method, endpoint, headers, body, locale, fetchData }: RestFullProps<T>) {
+export default function GraphQL<T>({
+  initialVariables,
+  method,
+  endpoint,
+  headers,
+  body,
+  locale,
+  fetchData,
+}: RestFullProps<T>) {
   const { t } = useTranslation();
   const [endpointUrl, setEndpointUrl] = useState(endpoint);
   const [requestHeaders, setRequestHeaders] = useState<KeyValue[]>(headers || []);
   const [requestBody, setRequestBody] = useState(body);
+  const [variables, setVariables] = useState(initialVariables);
   const [endpointUrlSdl, setEndpointUrlSdl] = useState(endpoint ? `${endpoint}?sdl` : '');
   const [schema, setSchema] = useState<GraphQLSchema | null>(null);
   const [response, setResponse] = useState<FetchDataResponse<T> | undefined>(undefined);
@@ -61,19 +70,21 @@ export default function GraphQL<T>({ method, endpoint, headers, body, locale, fe
   useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
     const encodedBody = requestBody ? encode64(requestBody) : '';
+    const encodedVariables = variables ? encode64(variables) : '';
     const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : [];
     const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = '/GRAPHQL';
-    const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '';
-    const pathEncodedBody = encodedBody ? `/${encodedBody}` : '';
+    const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '/ ';
+    const pathEncodedBody = encodedBody ? `/${encodedBody}` : '/ ';
+    const pathEncodedVariables = encodedVariables ? `/${encodedVariables}` : '/ ';
     const pathQuery = encodedHeaders ? `?${query}` : '';
     const localePath = locale ? `/${locale}` : '';
-    const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathQuery;
+    const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathEncodedVariables + pathQuery;
 
     if (typeof window !== 'undefined') {
       window.history.pushState(null, '', path);
     }
-  }, [endpointUrl, requestHeaders, requestBody, locale]);
+  }, [endpointUrl, requestHeaders, requestBody, locale, variables]);
 
   const handleFetchSdl = async () => {
     try {
@@ -98,7 +109,7 @@ export default function GraphQL<T>({ method, endpoint, headers, body, locale, fe
       setResponse(data);
     }
   };
-  
+
   return (
     <div className={styles.resfullWrapper}>
       <div className={styles.resfullDocsWrapper}>
@@ -120,12 +131,16 @@ export default function GraphQL<T>({ method, endpoint, headers, body, locale, fe
             </button>
           </div>
           <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} />
+          <h4 className={styles.resfullContainer}>{t('RESTGraphQL:urlSdl')}</h4>
           <div className={styles.methodEndContainer}>
             <ClientEndpointSdl value={endpointUrlSdl} onChange={setEndpointUrlSdl} />
             <button className={styles.buttonSend} onClick={handleFetchSdl}>
               {t('RESTGraphQL:send')}
             </button>
           </div>
+          <h4 className={styles.resfullContainer}>{t('RESTGraphQL:variable')}</h4>
+          <JsonEditor value={variables} onChange={setVariables} />
+          <h4 className={styles.resfullContainer}>{t('RESTGraphQL:body')}</h4>
           <GraphEditor value={requestBody} onChange={setRequestBody} />
         </div>
         <h4>{t('RESTGraphQL:response')}</h4>
