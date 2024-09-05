@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyValue } from '@/Types/Types';
+import { Action, KeyValue } from '@/Types/Types';
 import { encode64 } from '@/utils/base64';
 import { LSGetItem, LSSetItem } from '@/utils/LSHelpers';
 import { replaceVariables } from '@/utils/replaceVariables';
@@ -22,12 +22,7 @@ interface FetchDataResponse<T> {
 }
 
 interface RestFullProps<T> {
-  fetchData: (
-    method: string,
-    url: string | undefined,
-    body: string | undefined,
-    headers: KeyValue[] | undefined
-  ) => Promise<FetchDataResponse<T> | undefined>;
+  fetchData: (action: Action) => Promise<FetchDataResponse<T> | undefined>;
   method: string;
   endpoint?: string;
   headers?: KeyValue[];
@@ -77,7 +72,7 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
 
   const onSendClick = async () => {
     const newBody = replaceVariables(requestBody, requestVariables);
-    const data = await fetchData(selectedMethod, endpointUrl, newBody, requestHeaders);
+    const data = await fetchData({ method: selectedMethod, url: endpointUrl, body: newBody, headers: requestHeaders });
     if (data) {
       if (data.status === 0) {
         toast.error(data.statusText, {

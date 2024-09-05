@@ -24,8 +24,6 @@ export default async function RESTGraphQL(props: Props) {
     redirect('/404');
   }
 
-  console.log('slug', slug);
-
   const method = slug[0];
   const endpoint = slug[1] && slug[1] !== '%20' ? decode64(slug[1].replace('%3D', '=')) : '';
   const headers =

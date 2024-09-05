@@ -2,12 +2,9 @@
 
 import { getIntrospectionQuery } from 'graphql';
 
-export const fetchData = async (
-  method: string,
-  url: string | undefined,
-  body: string | undefined,
-  headers: { key: string; value: string }[] | undefined
-) => {
+import { Action } from '@/Types/Types';
+
+export const fetchData = async ({ method, url, body, headers, variables }: Action) => {
   'use server';
   if (!url) {
     return { response: undefined, status: 0, statusText: 'URL is required' };
@@ -25,7 +22,7 @@ export const fetchData = async (
           )
         : undefined,
 
-    body: (method === 'GRAPHQL' ? JSON.stringify({ query: body }) : body) || undefined,
+    body: (method === 'GRAPHQL' ? JSON.stringify({ query: body, variables }) : body) || undefined,
   };
   try {
     const response = await fetch(url, options);

@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyValue } from '@/Types/Types';
+import { Action, KeyValue } from '@/Types/Types';
 import { encode64 } from '@/utils/base64';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -24,12 +24,7 @@ interface RestFullProps<T> {
   headers?: KeyValue[];
   body?: string;
   locale: string;
-  fetchData: (
-    method: string,
-    url: string | undefined,
-    body: string | undefined,
-    headers: KeyValue[] | undefined
-  ) => Promise<FetchDataResponse<T> | undefined>;
+  fetchData: (action: Action) => Promise<FetchDataResponse<T> | undefined>;
 }
 interface FetchDataResponse<T> {
   response: T;
@@ -97,7 +92,14 @@ export default function GraphQL<T>({
   };
 
   const onSendClick = async () => {
-    const data = await fetchData(method, endpointUrl, requestBody, requestHeaders);
+    const parsedVariables = variables ? JSON.parse(variables) : undefined;
+    const data = await fetchData({
+      method,
+      url: endpointUrl,
+      body: requestBody,
+      headers: requestHeaders,
+      variables: parsedVariables,
+    });
     if (data) {
       if (data.status === 0) {
         toast.error(data.statusText, {
