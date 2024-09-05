@@ -19,7 +19,7 @@ export default function Footer() {
       <div className={styles.yearText}>© 2024</div>
       <div className={styles.separator} />
 
-      <a href="https://rs.school/react" className={styles.logoLink}>
+      <a href="https://rs.school/courses/reactjs" className={styles.logoLink}>
         <Image src="/rss-logo.svg" alt="logo" width={70} height={70} priority />
       </a>
     </footer>
