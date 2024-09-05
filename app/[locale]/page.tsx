@@ -1,10 +1,9 @@
 import ExampleClientComponent from '@/components/ExampleClientComponent/ExampleClientComponent';
+import { Greeting } from '@/components/Greeting/Greeting';
 import { NavButton } from '@/components/NavButton/NavButton';
 import classNames from 'classnames';
 import initTranslations from '../i18n';
 import styles from './page.module.css';
-import RestFullButton from '@/components/Clients/RESTfull/RestFullButton';
-import { Greeting } from '@/components/Greeting/Greeting';
 
 type Props = {
   params: {

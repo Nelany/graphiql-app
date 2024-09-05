@@ -4,11 +4,7 @@ import Link from 'next/link';
 import { NavButton } from '../NavButton/NavButton';
 import styles from './Header.module.css';
 
-type HeaderProps = {
-  t: (key: string) => string;
-};
-
-export default function Header({ t }: HeaderProps) {
+export default function Header() {
   return (
     <header className={styles.header}>
       <Link href="/" className={styles['logo-link']}>
