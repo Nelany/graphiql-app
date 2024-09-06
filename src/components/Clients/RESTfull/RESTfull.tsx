@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyValue } from '@/Types/Types';
+import { Action, KeyValue } from '@/Types/Types';
 import { encode64 } from '@/utils/base64';
 import { LSGetItem, LSSetItem } from '@/utils/LSHelpers';
 import { replaceVariables } from '@/utils/replaceVariables';
@@ -22,62 +22,61 @@ interface FetchDataResponse<T> {
 }
 
 interface RestFullProps<T> {
-  fetchData: (
-    method: string,
-    url: string | undefined,
-    body: string | undefined,
-    headers: KeyValue[] | undefined
-  ) => Promise<FetchDataResponse<T> | undefined>;
+  fetchData: (action: Action) => Promise<FetchDataResponse<T> | undefined>;
   method: string;
   endpoint?: string;
   headers?: KeyValue[];
   body?: string;
   locale: string;
+  initialVariables: string;
 }
 
-export default function RestFull<T>({ fetchData, method, endpoint, headers, body, locale }: RestFullProps<T>) {
+export default function RestFull<T>({
+  fetchData,
+  method,
+  endpoint,
+  headers,
+  body,
+  locale,
+  initialVariables,
+}: RestFullProps<T>) {
   const { t } = useTranslation();
   const [selectedMethod, setSelectedMethod] = useState(method);
   const [endpointUrl, setEndpointUrl] = useState(endpoint);
   const [requestHeaders, setRequestHeaders] = useState<KeyValue[]>(headers || []);
   const [requestBody, setRequestBody] = useState(body);
   const [response, setResponse] = useState<FetchDataResponse<T> | undefined>(undefined);
-  const [requestVariables, setRequestVariables] = useState<KeyValue[] | undefined>();
+  const [variables, setVariables] = useState<KeyValue[]>(initialVariables ? JSON.parse(initialVariables) : []);
 
   const prepareHeadersParams = (headersArray: KeyValue[]) => {
     return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
   };
 
   useEffect(() => {
-    if (!requestVariables) {
-      setRequestVariables(LSGetItem('restVariables') || []);
-      return;
-    }
-    const sanitizedVariables = requestVariables.filter((val) => val.key);
-    LSSetItem('restVariables', sanitizedVariables);
-  }, [requestVariables]);
-
-  useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
     const encodedBody = requestBody ? encode64(JSON.stringify(JSON.parse(requestBody))) : '';
+    const sanitizedVariables = variables.filter((val) => val.key);
+    const encodedVariables = sanitizedVariables.length ? encode64(JSON.stringify(sanitizedVariables)) : '';
     const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : [];
 
     const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = selectedMethod ? `/${selectedMethod}` : '';
-    const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '';
-    const pathEncodedBody = encodedBody ? `/${encodedBody}` : '';
+    const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '/ ';
+    const pathEncodedBody = encodedBody ? `/${encodedBody}` : '/ ';
+    const pathEncodedVariables = encodedVariables ? `/${encodedVariables}` : '/ ';
     const pathQuery = encodedHeaders.length ? `?${query}` : '';
     const localePath = locale ? `/${locale}` : '';
-    const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathQuery;
+    const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathEncodedVariables + pathQuery;
 
     if (typeof window !== 'undefined') {
       window.history.replaceState(null, '', path);
     }
-  }, [selectedMethod, endpointUrl, requestHeaders, requestBody, locale]);
+  }, [selectedMethod, endpointUrl, requestHeaders, requestBody, locale, variables]);
 
   const onSendClick = async () => {
+    const requestVariables = variables.length ? variables : undefined;
     const newBody = replaceVariables(requestBody, requestVariables);
-    const data = await fetchData(selectedMethod, endpointUrl, newBody, requestHeaders);
+    const data = await fetchData({ method: selectedMethod, url: endpointUrl, body: newBody, headers: requestHeaders });
     if (data) {
       if (data.status === 0) {
         toast.error(data.statusText, {
@@ -91,12 +90,7 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
 
       let history = LSGetItem('history') || [];
 
-      const currentEntry = {
-        url: currentUrl,
-        variables: requestVariables,
-      };
-
-      history.unshift(currentEntry);
+      history.unshift(currentUrl);
 
       LSSetItem('history', history);
     }
@@ -114,8 +108,8 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
         </div>
         <h4>{t('RESTGraphQL:variableMessage')}</h4>
         <KeyValueInputs
-          value={requestVariables || []}
-          onChange={setRequestVariables}
+          value={variables}
+          onChange={setVariables}
           buttonTitle={t('RESTGraphQL:addVariable')}
           placeholder={t('RESTGraphQL:variable')}
         />

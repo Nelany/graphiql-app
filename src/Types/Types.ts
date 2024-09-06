@@ -12,3 +12,11 @@ export interface Item {
   type: GraphQLType;
   parent?: Item;
 }
+
+export type Action = {
+  method: string;
+  url?: string;
+  body?: string;
+  headers?: { key: string; value: string }[];
+  variables?: { [key: string]: unknown };
+};
