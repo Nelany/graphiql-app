@@ -2,6 +2,7 @@
 
 import { KeyValue } from '@/Types/Types';
 import { encode64 } from '@/utils/base64';
+import { LSGetItem, LSSetItem } from '@/utils/LSHelpers';
 import { replaceVariables } from '@/utils/replaceVariables';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -49,12 +50,11 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
 
   useEffect(() => {
     if (!requestVariables) {
-      const variables = JSON.parse(localStorage?.getItem('restVariables') || '[]');
-      setRequestVariables(variables);
+      setRequestVariables(LSGetItem('restVariables') || []);
       return;
     }
     const sanitizedVariables = requestVariables.filter((val) => val.key);
-    localStorage?.setItem('restVariables', JSON.stringify(sanitizedVariables));
+    LSSetItem('restVariables', sanitizedVariables);
   }, [requestVariables]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
     const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathQuery;
 
     if (typeof window !== 'undefined') {
-      window.history.pushState(null, '', path);
+      window.history.replaceState(null, '', path);
     }
   }, [selectedMethod, endpointUrl, requestHeaders, requestBody, locale]);
 
@@ -87,6 +87,18 @@ export default function RestFull<T>({ fetchData, method, endpoint, headers, body
         return;
       }
       setResponse(data);
+      const currentUrl = window.location.href;
+
+      let history = LSGetItem('history') || [];
+
+      const currentEntry = {
+        url: currentUrl,
+        variables: requestVariables,
+      };
+
+      history.unshift(currentEntry);
+
+      LSSetItem('history', history);
     }
   };
 

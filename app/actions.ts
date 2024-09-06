@@ -17,14 +17,15 @@ export const fetchData = async (
     return { response: undefined, status: 0, statusText: 'GET requests should not have a body' };
   }
   const options: RequestInit = {
-    method,
+    method: method === 'GRAPHQL' ? 'POST' : method,
     headers:
       headers && headers.length > 0
         ? Object.fromEntries(
             headers.filter(({ key, value }) => key !== '' && value !== '').map(({ key, value }) => [key, value])
           )
         : undefined,
-    body: body || undefined,
+
+    body: (method === 'GRAPHQL' ? JSON.stringify({ query: body }) : body) || undefined,
   };
   try {
     const response = await fetch(url, options);
