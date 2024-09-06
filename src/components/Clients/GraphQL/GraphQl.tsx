@@ -13,6 +13,7 @@ import ClientEndpointSdl from '../RestQlClient/ClientEndpointSdl/ClientEndpointS
 import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
 import { buildClientSchema, getIntrospectionQuery, GraphQLSchema } from 'graphql';
 import { toast } from 'react-toastify';
+import { fetchSDL } from '../../../../app/actions';
 
 interface Header {
   key: string;
@@ -64,22 +65,13 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
     }
   }, [endpointUrl, requestHeaders, requestBody, locale]);
 
-  const fetchSDL = async () => {
-    const response = await fetch(endpointUrlSdl, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ query: getIntrospectionQuery() }),
-    });
-    const result = await response.json();
-    const schemaObject = result.data;
-    const schema = buildClientSchema(schemaObject);
-    setSchema(schema);
-    if (schema instanceof Error) {
-      toast.error(schema.message);
-      return;
+  const handleFetchSdl = async () => {
+    try {
+      const data = await fetchSDL(endpointUrlSdl);
+      const schema = buildClientSchema(data);
+      setSchema(schema);
+    } catch (error) {
+      toast.error('Error fetching schema');
     }
   };
 
@@ -104,7 +96,7 @@ export default function GraphQL({ endpoint, headers, body, locale }: RestFullPro
           <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} />
           <div className={styles.methodEndContainer}>
             <ClientEndpointSdl value={endpointUrlSdl} onChange={setEndpointUrlSdl} />
-            <button className={styles.buttonSend} onClick={fetchSDL}>
+            <button className={styles.buttonSend} onClick={handleFetchSdl}>
               {t('RESTGraphQL:send')}
             </button>
           </div>

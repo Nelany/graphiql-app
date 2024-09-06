@@ -1,3 +1,7 @@
+'use server';
+
+import { getIntrospectionQuery } from 'graphql';
+
 export const fetchData = async (
   method: string,
   url: string | undefined,
@@ -32,4 +36,17 @@ export const fetchData = async (
   } catch (error) {
     return { response: undefined, status: 0, statusText: (error as Error).message };
   }
+};
+
+export const fetchSDL = async (endpointUrlSdl: string | URL | Request) => {
+  const response = await fetch(endpointUrlSdl, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query: getIntrospectionQuery() }),
+  });
+  const result = await response.json();
+  return result.data;
 };

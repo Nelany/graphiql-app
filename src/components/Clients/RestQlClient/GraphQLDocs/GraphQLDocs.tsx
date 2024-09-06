@@ -29,10 +29,10 @@ const GraphQlDocs: FC<{ schema: GraphQLSchema }> = ({ schema }) => {
       const fields = type.getFields();
       return (
         <div>
-          {Object.keys(fields).map((fieldName) => {
+          {Object.keys(fields).map((fieldName, index) => {
             const field = fields[fieldName];
             return (
-              <div key={fieldName}>
+              <div key={index}>
                 <span className={styles.fieldLink} onClick={() => handleItemClick(field)}>
                   {fieldName}
                 </span>
