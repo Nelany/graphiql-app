@@ -12,8 +12,12 @@ import GraphEditor from '../RestQlClient/ClientJsonEditor/GraphQLEditor';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 import GraphQLDocs from '../RestQlClient/GraphQLDocs/GraphQLDocs';
 import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
+import { buildClientSchema, getIntrospectionQuery, GraphQLSchema } from 'graphql';
+import { toast } from 'react-toastify';
+import { fetchSDL } from '../../../../app/actions';
 import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import styles from './GraphQl.module.css';
+  
 interface RestFullProps<T> {
   method: string;
   endpoint?: string;
@@ -39,22 +43,19 @@ export default function GraphQL<T>({ method, endpoint, headers, body, locale, fe
   const [requestHeaders, setRequestHeaders] = useState<KeyValue[]>(headers || []);
   const [requestBody, setRequestBody] = useState(body);
   const [endpointUrlSdl, setEndpointUrlSdl] = useState(endpoint ? `${endpoint}?sdl` : '');
+  const [schema, setSchema] = useState<GraphQLSchema | null>(null);
   const [response, setResponse] = useState<FetchDataResponse<T> | undefined>(undefined);
 
   const prepareHeadersParams = (headersArray: KeyValue[]) => {
     return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
   };
 
-  const [isDocsVisible, setIsDocsVisible] = useState(false);
-
-  const toggleDocsVisibility = () => {
-    setIsDocsVisible(!isDocsVisible);
-  };
-
   useEffect(() => {
     if (!endpointUrl) {
       setEndpointUrlSdl('');
-    } else setEndpointUrlSdl(`${endpoint}?sdl`);
+    } else {
+      setEndpointUrlSdl(`${endpointUrl}?sdl`);
+    }
   }, [endpointUrl]);
 
   useEffect(() => {
@@ -74,6 +75,16 @@ export default function GraphQL<T>({ method, endpoint, headers, body, locale, fe
     }
   }, [endpointUrl, requestHeaders, requestBody, locale]);
 
+  const handleFetchSdl = async () => {
+    try {
+      const data = await fetchSDL(endpointUrlSdl);
+      const schema = buildClientSchema(data);
+      setSchema(schema);
+    } catch (error) {
+      toast.error('Error fetching schema');
+    }
+  };
+
   const onSendClick = async () => {
     const data = await fetchData(method, endpointUrl, requestBody, requestHeaders);
     if (data) {
@@ -87,6 +98,7 @@ export default function GraphQL<T>({ method, endpoint, headers, body, locale, fe
       setResponse(data);
     }
   };
+  
   return (
     <div className={styles.resfullWrapper}>
       <div className={styles.resfullDocsWrapper}>
@@ -96,22 +108,23 @@ export default function GraphQL<T>({ method, endpoint, headers, body, locale, fe
           alt="list-icon"
           width={60}
           height={60}
-          onClick={toggleDocsVisibility}
         />
-        {isDocsVisible && <GraphQLDocs />}
+        {schema && <GraphQLDocs schema={schema} />}
       </div>
       <div className={styles.resfullContainer}>
         <div className={styles.editFieldContainer}>
           <div className={styles.methodEndContainer}>
             <ClientEndpoint value={endpointUrl} onChange={setEndpointUrl} />
             <button className={styles.buttonSend} onClick={onSendClick}>
-              Send
+              {t('RESTGraphQL:send')}
             </button>
           </div>
           <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} />
           <div className={styles.methodEndContainer}>
             <ClientEndpointSdl value={endpointUrlSdl} onChange={setEndpointUrlSdl} />
-            <button className={styles.buttonSend}>Send</button>
+            <button className={styles.buttonSend} onClick={handleFetchSdl}>
+              {t('RESTGraphQL:send')}
+            </button>
           </div>
           <GraphEditor value={requestBody} onChange={setRequestBody} />
         </div>
