@@ -8,9 +8,11 @@ interface KeyValueInputProps {
   value: KeyValue;
   onChange: (field: keyof KeyValue, value: string) => void;
   placeholder?: string;
+  index: number;
+  onRemove: (index: number) => void;
 }
 
-function KeyValueInput({ value, onChange, placeholder }: KeyValueInputProps) {
+function KeyValueInput({ value, onChange, placeholder, index, onRemove }: KeyValueInputProps) {
   const { t } = useTranslation();
   const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange('key', e.target.value);
@@ -36,6 +38,9 @@ function KeyValueInput({ value, onChange, placeholder }: KeyValueInputProps) {
         placeholder={t('RESTGraphQL:value')}
         onChange={handleValueChange}
       />
+      <button onClick={() => onRemove(index)} className={styles.removeButton} style={{ height: '50px' }}>
+        🗑️
+      </button>
     </div>
   );
 }

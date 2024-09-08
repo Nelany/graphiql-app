@@ -96,6 +96,16 @@ export default function RestFull<T>({
     }
   };
 
+  const handleRemoveVariable = (index: number) => {
+    const newVariables = variables.filter((_, i) => i !== index);
+    setVariables(newVariables);
+  };
+
+  const handleRemoveHeader = (index: number) => {
+    const newHeaders = requestHeaders.filter((_, i) => i !== index);
+    setRequestHeaders(newHeaders);
+  };
+
   return (
     <div className={styles.resfullContainer}>
       <div className={styles.editFieldContainer}>
@@ -112,8 +122,9 @@ export default function RestFull<T>({
           onChange={setVariables}
           buttonTitle={t('RESTGraphQL:addVariable')}
           placeholder={t('RESTGraphQL:variable')}
+          onRemove={handleRemoveVariable}
         />
-        <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} />
+        <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
         <JsonEditor value={requestBody} onChange={setRequestBody} />
       </div>
       <h4>{t('RESTGraphQL:response')}</h4>

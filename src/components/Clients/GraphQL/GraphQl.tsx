@@ -83,12 +83,27 @@ export default function GraphQL<T>({
 
   const handleFetchSdl = async () => {
     try {
-      const data = await fetchSDL(endpointUrlSdl);
-      const schema = buildClientSchema(data);
+      const { response, status, statusText } = await fetchSDL(endpointUrlSdl);
+
+      if (!response) {
+        toast.error(`Error fetching schema: ${statusText} (status: ${status})`);
+        return;
+      }
+
+      const schema = buildClientSchema(response);
       setSchema(schema);
     } catch (error) {
-      toast.error('Error fetching schema');
+      toast.error(`Error fetching schema: ${(error as Error).message}`);
     }
+  };
+
+  const handleRemoveHeader = (index: number) => {
+    const newHeaders = requestHeaders.filter((_, i) => i !== index);
+    setRequestHeaders(newHeaders);
+  };
+
+  const handleRemoveDocs = () => {
+    setSchema(null);
   };
 
   const onSendClick = async () => {
@@ -123,11 +138,12 @@ export default function GraphQL<T>({
     <div className={styles.resfullWrapper}>
       <div className={styles.resfullDocsWrapper}>
         <Image
-          className={styles.resfullDocsIcon}
+          className={`${styles.resfullDocsIcon} ${schema ? styles.pointerCursor : ''}`}
           src="/list_document_icon.png"
           alt="list-icon"
           width={60}
           height={60}
+          onClick={handleRemoveDocs}
         />
         {schema && <GraphQLDocs schema={schema} />}
       </div>
@@ -139,7 +155,7 @@ export default function GraphQL<T>({
               {t('RESTGraphQL:send')}
             </button>
           </div>
-          <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} />
+          <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
           <h4 className={styles.resfullContainer}>{t('RESTGraphQL:urlSdl')}</h4>
           <div className={styles.methodEndContainer}>
             <ClientEndpointSdl value={endpointUrlSdl} onChange={setEndpointUrlSdl} />
