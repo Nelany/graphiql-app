@@ -14,11 +14,11 @@ type Props = {
 const namespaces = ['Header', 'exampleClientComponent', 'home', 'forms', 'signIn', 'signUp', 'RESTGraphQL', 'History'];
 
 export default async function RootLayout({ children, params: { locale } }: Props) {
-  const { t, resources } = await initTranslations(locale, namespaces);
+  const { resources } = await initTranslations(locale, namespaces);
 
   return (
     <TranslationsProvider namespaces={namespaces} locale={locale} resources={resources}>
-      <Header t={t} />
+      <Header />
       <TokenChecker>{children}</TokenChecker>
       <ToastContainer />
       <Footer />
