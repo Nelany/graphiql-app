@@ -22,6 +22,10 @@ function KeyValueInput({ value, onChange, placeholder, index, onRemove }: KeyVal
     onChange('value', e.target.value);
   };
 
+  const handleRemove = () => {
+    onRemove(index);
+  };
+
   return (
     <div className={styles.inputContainer}>
       <input
@@ -38,7 +42,7 @@ function KeyValueInput({ value, onChange, placeholder, index, onRemove }: KeyVal
         placeholder={t('RESTGraphQL:value')}
         onChange={handleValueChange}
       />
-      <button onClick={() => onRemove(index)} className={styles.removeButton}>
+      <button onClick={handleRemove} className={styles.removeButton}>
         🗑️
       </button>
     </div>
