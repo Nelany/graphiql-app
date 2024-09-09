@@ -38,7 +38,7 @@ function KeyValueInput({ value, onChange, placeholder, index, onRemove }: KeyVal
         placeholder={t('RESTGraphQL:value')}
         onChange={handleValueChange}
       />
-      <button onClick={() => onRemove(index)} className={styles.removeButton} style={{ height: '50px' }}>
+      <button onClick={() => onRemove(index)} className={styles.removeButton}>
         🗑️
       </button>
     </div>
