@@ -17,6 +17,7 @@ import { buildClientSchema, GraphQLSchema } from 'graphql';
 import { fetchSDL } from '../../../../app/actions';
 import styles from './GraphQl.module.css';
 import { LSGetItem, LSSetItem } from '@/utils/LSHelpers';
+import ButtonsShow from '../RestQlClient/ShowButtons/ShowButtons';
 interface RestFullProps<T> {
   initialVariables: string;
   method: string;
@@ -49,6 +50,8 @@ export default function GraphQL<T>({
   const [endpointUrlSdl, setEndpointUrlSdl] = useState(endpoint ? `${endpoint}?sdl` : '');
   const [schema, setSchema] = useState<GraphQLSchema | null>(null);
   const [response, setResponse] = useState<FetchDataResponse<T> | undefined>(undefined);
+  const [showHeaders, setShowHeaders] = useState(false);
+  const [showVariables, setShowVariables] = useState(false);
 
   const prepareHeadersParams = (headersArray: KeyValue[]) => {
     return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
@@ -134,6 +137,14 @@ export default function GraphQL<T>({
     }
   };
 
+  const handleShowHeaders = () => {
+    setShowHeaders(!showHeaders);
+  };
+
+  const handleShowVariables = () => {
+    setShowVariables(!showVariables);
+  };
+
   return (
     <div className={styles.resfullWrapper}>
       <div className={styles.resfullDocsWrapper}>
@@ -155,7 +166,6 @@ export default function GraphQL<T>({
               {t('RESTGraphQL:send')}
             </button>
           </div>
-          <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
           <h4 className={styles.resfullContainer}>{t('RESTGraphQL:urlSdl')}</h4>
           <div className={styles.methodEndContainer}>
             <ClientEndpointSdl value={endpointUrlSdl} onChange={setEndpointUrlSdl} />
@@ -163,8 +173,16 @@ export default function GraphQL<T>({
               {t('RESTGraphQL:send')}
             </button>
           </div>
-          <h4 className={styles.resfullContainer}>{t('RESTGraphQL:variable')}</h4>
-          <JsonEditor value={variables} onChange={setVariables} />
+          <ButtonsShow onShowHeaders={handleShowHeaders} onShowVariables={handleShowVariables} />
+          {showHeaders && (
+            <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
+          )}
+          {showVariables && (
+            <div className={styles.showVariablesWrapper}>
+              <h4 className={styles.resfullContainer}>{t('RESTGraphQL:variable')}</h4>
+              <JsonEditor value={variables} onChange={setVariables} />
+            </div>
+          )}
           <h4 className={styles.resfullContainer}>{t('RESTGraphQL:body')}</h4>
           <GraphEditor value={requestBody} onChange={setRequestBody} />
         </div>

@@ -17,5 +17,7 @@
   "urlSdl": "URL конечной точки GraphQL",
   "body": "Тело",
   "docs": "Документация",
-  "sdlEndpoint": "SDL конечная точка"
+  "sdlEndpoint": "SDL конечная точка",
+  "showHeaders": "Заголовки",
+  "showVariables": "Переменные"
 }

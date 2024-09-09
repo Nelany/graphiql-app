@@ -17,5 +17,7 @@
   "urlSdl": "GraphQL Endpoint URL",
   "body": "Body",
   "docs": "Docs",
-  "sdlEndpoint": "SDL Endpoint"
+  "sdlEndpoint": "SDL Endpoint",
+  "showHeaders": "Headers",
+  "showVariables": "Variables"
 }

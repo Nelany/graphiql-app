@@ -14,6 +14,7 @@ import ClientMethods from '../RestQlClient/ClientMethods/ClientMethods';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
 import styles from './RestFull.module.css';
+import ButtonsShow from '../RestQlClient/ShowButtons/ShowButtons';
 
 interface FetchDataResponse<T> {
   response: T;
@@ -47,6 +48,8 @@ export default function RestFull<T>({
   const [requestBody, setRequestBody] = useState(body);
   const [response, setResponse] = useState<FetchDataResponse<T> | undefined>(undefined);
   const [variables, setVariables] = useState<KeyValue[]>(initialVariables ? JSON.parse(initialVariables) : []);
+  const [showHeaders, setShowHeaders] = useState(false);
+  const [showVariables, setShowVariables] = useState(false);
 
   const prepareHeadersParams = (headersArray: KeyValue[]) => {
     return headersArray.map((val) => Object.values(val)).filter((val) => val[0]);
@@ -106,6 +109,14 @@ export default function RestFull<T>({
     setRequestHeaders(newHeaders);
   };
 
+  const handleShowHeaders = () => {
+    setShowHeaders(!showHeaders);
+  };
+
+  const handleShowVariables = () => {
+    setShowVariables(!showVariables);
+  };
+
   return (
     <div className={styles.resfullContainer}>
       <div className={styles.editFieldContainer}>
@@ -117,14 +128,20 @@ export default function RestFull<T>({
           </button>
         </div>
         <h4>{t('RESTGraphQL:variableMessage')}</h4>
-        <KeyValueInputs
-          value={variables}
-          onChange={setVariables}
-          buttonTitle={t('RESTGraphQL:addVariable')}
-          placeholder={t('RESTGraphQL:variable')}
-          onRemove={handleRemoveVariable}
-        />
-        <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
+        <ButtonsShow onShowHeaders={handleShowHeaders} onShowVariables={handleShowVariables} />
+        {showHeaders && (
+          <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
+        )}
+        {showVariables && (
+          <KeyValueInputs
+            value={variables}
+            onChange={setVariables}
+            buttonTitle={t('RESTGraphQL:addVariable')}
+            placeholder={t('RESTGraphQL:variable')}
+            onRemove={handleRemoveVariable}
+          />
+        )}
+        <h4 className={styles.resfullContainer}>{t('RESTGraphQL:body')}</h4>
         <JsonEditor value={requestBody} onChange={setRequestBody} />
       </div>
       <h4>{t('RESTGraphQL:response')}</h4>
