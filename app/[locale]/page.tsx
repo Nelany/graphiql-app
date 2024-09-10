@@ -1,4 +1,3 @@
-import ExampleClientComponent from '@/components/ExampleClientComponent/ExampleClientComponent';
 import { Greeting } from '@/components/Greeting/Greeting';
 import { NavButton } from '@/components/NavButton/NavButton';
 import classNames from 'classnames';
@@ -49,11 +48,6 @@ export default async function Home({ params: { locale } }: Props) {
           <p>{t('courseText')}</p>
         </div>
       </div>
-      <div className={styles['buttons-wrapper']}></div>
-      <button>{t('button')}</button>
-      <button className={styles['medium-light-element']}>{t('button2')}</button>
-      <p className={styles['underlined-element']}>{t('message')}</p>
-      <ExampleClientComponent />
     </main>
   );
 }

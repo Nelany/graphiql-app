@@ -34,9 +34,6 @@ function KeyValueInputs({ value, onChange, buttonTitle, placeholder }: KeyValueI
 
   return (
     <div className={styles.headersContainer}>
-      <button onClick={addItem} className={styles.buttonAdd}>
-        {buttonTitle || t('RESTGraphQL:addHeader')}
-      </button>
       {value.map((item, index) => (
         <KeyValueInput
           key={index}
@@ -47,6 +44,9 @@ function KeyValueInputs({ value, onChange, buttonTitle, placeholder }: KeyValueI
           index={index}
         />
       ))}
+      <button onClick={addItem} className={styles.buttonAdd}>
+        {buttonTitle || t('RESTGraphQL:addHeader')}
+      </button>
     </div>
   );
 }
