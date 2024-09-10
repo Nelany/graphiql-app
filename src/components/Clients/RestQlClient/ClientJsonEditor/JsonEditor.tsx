@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import CodeMirror from '@uiw/react-codemirror';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { material } from '@uiw/codemirror-theme-material';
+import CodeMirror from '@uiw/react-codemirror';
+import { useEffect, useRef, useState } from 'react';
+import styles from '../../GraphQL/GraphQl.module.css';
 
 interface JsonEditorProps {
   value?: string;
@@ -34,7 +35,7 @@ function JsonEditor({ value, onChange, isReadOnly = false }: JsonEditorProps) {
   }, [value]);
 
   return (
-    <div>
+    <div className={styles.jsonEditorContainer}>
       <p>{errorMessage}</p>
       <CodeMirror
         readOnly={isReadOnly}

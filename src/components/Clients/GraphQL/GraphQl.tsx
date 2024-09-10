@@ -2,10 +2,13 @@
 
 import { Action, KeyValue } from '@/Types/Types';
 import { encode64 } from '@/utils/base64';
+import { LSGetItem, LSSetItem } from '@/utils/LSHelpers';
+import { buildClientSchema, GraphQLSchema } from 'graphql';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { fetchSDL } from '../../../../app/actions';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
 import ClientEndpointSdl from '../RestQlClient/ClientEndpointSdl/ClientEndpointSdl';
 import GraphEditor from '../RestQlClient/ClientJsonEditor/GraphQLEditor';
@@ -13,11 +16,7 @@ import JsonEditor from '../RestQlClient/ClientJsonEditor/JsonEditor';
 import ResponseStatus from '../RestQlClient/ClientResponse/ResponseStatus/ResponseStatus';
 import GraphQLDocs from '../RestQlClient/GraphQLDocs/GraphQLDocs';
 import KeyValueInputs from '../RestQlClient/KeyValueInputs/KeyValueInputs';
-import { buildClientSchema, GraphQLSchema } from 'graphql';
-import { fetchSDL } from '../../../../app/actions';
 import styles from './GraphQl.module.css';
-import { LSGetItem, LSSetItem } from '@/utils/LSHelpers';
-import ButtonsShow from '../RestQlClient/ShowButtons/ShowButtons';
 interface RestFullProps<T> {
   initialVariables: string;
   method: string;
@@ -166,24 +165,28 @@ export default function GraphQL<T>({
               {t('RESTGraphQL:send')}
             </button>
           </div>
-          <h4 className={styles.resfullContainer}>{t('RESTGraphQL:urlSdl')}</h4>
+          <h4 className={styles.tittleContainer}>{t('RESTGraphQL:urlSdl')}</h4>
           <div className={styles.methodEndContainer}>
             <ClientEndpointSdl value={endpointUrlSdl} onChange={setEndpointUrlSdl} />
             <button className={styles.buttonSend} onClick={handleFetchSdl}>
               {t('RESTGraphQL:send')}
             </button>
           </div>
-          <ButtonsShow onShowHeaders={handleShowHeaders} onShowVariables={handleShowVariables} />
-          {showHeaders && (
-            <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
-          )}
-          {showVariables && (
-            <div className={styles.showVariablesWrapper}>
-              <h4 className={styles.resfullContainer}>{t('RESTGraphQL:variable')}</h4>
-              <JsonEditor value={variables} onChange={setVariables} />
-            </div>
-          )}
-          <h4 className={styles.resfullContainer}>{t('RESTGraphQL:body')}</h4>
+          <div className={styles.resfullContainer}>
+            <button className={styles.buttonsShow} onClick={handleShowHeaders}>
+              {t('RESTGraphQL:showHeaders')}
+            </button>
+            {showHeaders && (
+              <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
+            )}
+          </div>
+          <div className={styles.resfullContainer}>
+            <button className={styles.buttonsShow} onClick={handleShowVariables}>
+              {t('RESTGraphQL:showVariables')}
+            </button>
+            {showVariables && <JsonEditor value={variables} onChange={setVariables} />}
+          </div>
+          <h4 className={styles.tittleContainer}>{t('RESTGraphQL:body')}</h4>
           <GraphEditor value={requestBody} onChange={setRequestBody} />
         </div>
         <h4>{t('RESTGraphQL:response')}</h4>
