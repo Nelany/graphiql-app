@@ -1,0 +1,9 @@
+.buttonsShowWrapper {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.buttonsShow {
+  height: 50px;
+}

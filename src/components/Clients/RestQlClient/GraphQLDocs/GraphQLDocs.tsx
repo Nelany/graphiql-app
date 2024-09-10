@@ -12,9 +12,11 @@ import {
 } from 'graphql';
 import styles from './GraphQLDocs.module.css';
 import { Item } from '@/Types/Types';
+import { useTranslation } from 'react-i18next';
 
 const GraphQlDocs: FC<{ schema: GraphQLSchema }> = ({ schema }) => {
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const { t } = useTranslation();
 
   const handleItemClick = (item: Item) => {
     setSelectedItem(item);
@@ -89,7 +91,7 @@ const GraphQlDocs: FC<{ schema: GraphQLSchema }> = ({ schema }) => {
 
   return (
     <div className={styles.docs}>
-      <h1>Docs</h1>
+      <h1>{t('RESTGraphQL:docs')}</h1>
       {schema ? (
         selectedItem ? (
           <div className={styles.docsWrapper}>

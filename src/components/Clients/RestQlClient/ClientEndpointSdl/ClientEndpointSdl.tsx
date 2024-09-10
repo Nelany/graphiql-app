@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslation } from 'react-i18next';
 import styles from './ClientEndpointSdl.module.css';
 
 interface ClientEndpointSdlProps {
@@ -8,13 +9,15 @@ interface ClientEndpointSdlProps {
 }
 
 function ClientEndpointSdl({ value, onChange }: ClientEndpointSdlProps) {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.endpointInput}>
       <input
         type="text"
         value={value || ''}
         className={styles.inputWith}
-        placeholder="SDL Endpoint"
+        placeholder={t('RESTGraphQL:sdlEndpoint')}
         onChange={(e) => onChange(e.target.value)}
       />
     </div>

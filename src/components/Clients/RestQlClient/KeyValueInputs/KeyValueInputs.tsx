@@ -10,6 +10,7 @@ interface KeyValueInputsProps {
   onChange: (value: KeyValue[]) => void;
   buttonTitle?: string;
   placeholder?: string;
+  onRemove: (index: number) => void;
 }
 
 function KeyValueInputs({ value, onChange, buttonTitle, placeholder }: KeyValueInputsProps) {
@@ -26,6 +27,11 @@ function KeyValueInputs({ value, onChange, buttonTitle, placeholder }: KeyValueI
     onChange(newItems);
   };
 
+  const handleRemove = (index: number) => {
+    const newItems = value.filter((_, i) => i !== index);
+    onChange(newItems);
+  };
+
   return (
     <div className={styles.headersContainer}>
       <button onClick={addItem} className={styles.buttonAdd}>
@@ -37,6 +43,8 @@ function KeyValueInputs({ value, onChange, buttonTitle, placeholder }: KeyValueI
           value={item}
           placeholder={placeholder || ''}
           onChange={(field, value) => handleChange(index, field, value)}
+          onRemove={handleRemove}
+          index={index}
         />
       ))}
     </div>
