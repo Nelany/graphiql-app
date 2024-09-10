@@ -25,11 +25,29 @@ export default async function Home({ params: { locale } }: Props) {
       </div>
       <Greeting />
       <div className={styles['dark-area']}>
-        <h2>The code window might look like this)</h2>
-        <h2 className={classNames(styles.h2, styles['light-yellow-text'])}>The code window might look like this)</h2>
-        <h2 className={classNames(styles.h2, styles['light-blue-text'])}>The code window might look like this)</h2>
-        <h2 className={classNames(styles.h2, styles['light-purple-text'])}>The code window might look like this)</h2>
-        <h2 className={classNames(styles.h2)}>The code window might look like this)</h2>
+        <div className={styles.aLinkContainer}>
+          <h2>{t('developers')}</h2>
+          <div className={styles.aLinkContainer}>
+            <a href="https://github.com/Nelany" className={styles.aLink}>
+              @Nelany
+            </a>
+            <a href="https://github.com/RemAntof" className={styles.aLink}>
+              @RemAntof
+            </a>
+            <a href="https://github.com/Oksana-bondareva" className={styles.aLink}>
+              @Oksana-bondareva
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h2 className={classNames(styles.h2, styles['light-blue-text'])}>{t('projectInfo')}</h2>
+          <p>{t('projectText')}</p>
+        </div>
+        <div>
+          <h2 className={classNames(styles.h2, styles['light-purple-text'])}>{t('courseInfo')}</h2>
+          <p>{t('courseText')}</p>
+        </div>
       </div>
       <div className={styles['buttons-wrapper']}></div>
       <button>{t('button')}</button>
