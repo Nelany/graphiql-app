@@ -1,18 +1,18 @@
 import '@testing-library/jest-dom';
-import { vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import SignIn from './page';
 import initTranslations from '../../i18n';
-import Home from '../page';
 
 vi.mock('../../i18n', () => ({
   __esModule: true,
   default: vi.fn(() => Promise.resolve({ t: (key: string) => key })),
 }));
 
-describe('Home component', () => {
+describe('SignIn component', () => {
   it('calls initTranslations with the correct parameters', async () => {
     const locale = 'en';
-    await Home({ params: { locale } });
+    await SignIn({ params: { locale } });
 
-    expect(initTranslations).toHaveBeenCalledWith(locale, ['home']);
+    expect(initTranslations).toHaveBeenCalledWith(locale, ['signIn']);
   });
 });
