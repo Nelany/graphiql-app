@@ -8,12 +8,12 @@
   --transition: all 0.4s;
 
   --dark: rgb(13, 11, 29);
-  --medium: rgb(27 24 46);
-  --medium-light: rgb(51 52 78);
+  --medium: rgb(24, 25, 47);
+  --medium-light: rgb(51, 56, 78);
   --light-transparent: rgba(220, 222, 235, 0.2);
 
   --white: rgb(220, 235, 234);
-  --blue: rgb(78 49 208);
+  --blue: rgb(70, 49, 208);
   --light-blue: rgb(116 110 208);
   --light-purple: rgb(125, 81, 157);
   --light-yellow: rgb(157, 155, 81);
