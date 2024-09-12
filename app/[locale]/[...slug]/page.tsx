@@ -25,15 +25,16 @@ export default function RESTGraphQL(props: Props) {
   }
 
   const method = slug[0];
-  const endpoint = slug[1] && slug[1] !== '%20' ? decode64(slug[1].replace('%3D', '=')) : '';
+  const endpoint = slug[1] && slug[1] !== '%20' ? decode64(slug[1]) : '';
   const headers =
     Object.keys(searchParams).length > 0
       ? Object.entries(searchParams).map(([key, value]) => {
           return { key: key, value: value };
         })
       : undefined;
-  const body = slug[2] && slug[2] !== '%20' ? decode64(slug[2].replace('%3D', '=')) : '';
-  const initialVariables = slug[3] && slug[3] !== '%20' ? decode64(slug[3].replace('%3D', '=')) : '';
+  const body = slug[2] && slug[2] !== '%20' ? decode64(slug[2]) : '';
+  const initialVariables = slug[3] && slug[3] !== '%20' ? decode64(slug[3]) : '';
+  const endpointSdl = slug[4] && slug[4] !== '%20' ? decode64(slug[4]) : '';
 
   const restQlPage =
     slug[0] === 'GRAPHQL' ? (
@@ -45,6 +46,7 @@ export default function RESTGraphQL(props: Props) {
         headers={headers}
         locale={locale}
         fetchData={fetchData}
+        endpointSdl={endpointSdl}
       />
     ) : (
       <RestFull
