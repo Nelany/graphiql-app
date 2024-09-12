@@ -1,6 +1,7 @@
 {
   "name": "graphiql-app",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +10,7 @@
     "lint": "next lint",
     "test": "vitest run --coverage",
     "prepare": "husky",
-    "format": "prettier --write ."
+    "prettier-fix": "prettier --write ."
   },
   "dependencies": {
     "@uiw/codemirror-extensions-langs": "^4.23.0",

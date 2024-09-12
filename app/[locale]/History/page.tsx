@@ -1,11 +1,11 @@
 'use client';
 
-import { NavButton } from '@/components/NavButton/NavButton';
-import { LSGetItem } from '@/utils/LSHelpers';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { NavButton } from '../../../src/components/NavButton/NavButton';
+import { LSGetItem } from '../../../src/utils/LSHelpers';
 import styles from './page.module.css';
 
 export default function History() {

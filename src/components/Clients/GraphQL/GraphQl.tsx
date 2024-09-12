@@ -85,10 +85,9 @@ export default function GraphQL<T>({
 
   const handleFetchSdl = async () => {
     try {
-      const { response, status, statusText } = await fetchSDL(endpointUrlSdl);
-
+      const response = await fetchSDL(endpointUrlSdl);
       if (!response) {
-        toast.error(`Error fetching schema: ${statusText} (status: ${status})`);
+        toast.error(`Error fetching schema: response is empty!`);
         return;
       }
 

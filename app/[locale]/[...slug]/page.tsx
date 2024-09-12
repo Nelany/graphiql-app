@@ -17,7 +17,7 @@ type Props = {
 
 const validSlugs = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'GRAPHQL'];
 
-export default async function RESTGraphQL(props: Props) {
+export default function RESTGraphQL(props: Props) {
   const { slug, locale } = props.params;
   const { searchParams } = props;
   if (!validSlugs.includes(slug[0])) {
