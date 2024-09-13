@@ -126,7 +126,7 @@ export default function RestFull<T>({
             {t('RESTGraphQL:send')}
           </button>
         </div>
-        <div className={styles.resfullContainer}>
+        <div className={styles.keyValueContainer}>
           <button className={styles.buttonsShow} onClick={handleShowHeaders}>
             {t('RESTGraphQL:showHeaders')}
           </button>
@@ -134,7 +134,7 @@ export default function RestFull<T>({
             <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
           )}
         </div>
-        <div className={styles.resfullContainer}>
+        <div className={styles.keyValueContainer}>
           <button className={styles.buttonsShow} onClick={handleShowVariables}>
             {t('RESTGraphQL:showVariables')}
           </button>

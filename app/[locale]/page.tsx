@@ -14,6 +14,7 @@ export default async function Home({ params: { locale } }: Props) {
   const { t } = await initTranslations(locale, ['home']);
   return (
     <main data-testid="main" className={styles.main}>
+      <div id="particles-js"></div>
       <div className={styles['buttons-container']}>
         <NavButton className={['main-nav-button']} isUser={true} rout="/GET" text={'home:buttonRest'} />
         <NavButton className={['main-nav-button']} isUser={true} rout="/GRAPHQL" text={'home:buttonGraphQL'} />

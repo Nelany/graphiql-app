@@ -25,6 +25,7 @@ interface RestFullProps<T> {
   body?: string;
   locale: string;
   fetchData: (action: Action) => Promise<FetchDataResponse<T> | undefined>;
+  endpointSdl?: string;
 }
 interface FetchDataResponse<T> {
   response: T;
@@ -40,13 +41,14 @@ export default function GraphQL<T>({
   body,
   locale,
   fetchData,
+  endpointSdl,
 }: RestFullProps<T>) {
   const { t } = useTranslation();
   const [endpointUrl, setEndpointUrl] = useState(endpoint);
   const [requestHeaders, setRequestHeaders] = useState<KeyValue[]>(headers || []);
   const [requestBody, setRequestBody] = useState(body);
   const [variables, setVariables] = useState(initialVariables);
-  const [endpointUrlSdl, setEndpointUrlSdl] = useState(endpoint ? `${endpoint}?sdl` : '');
+  const [endpointUrlSdl, setEndpointUrlSdl] = useState(endpointSdl ? endpointSdl : endpoint ? `${endpoint}?sdl` : '');
   const [schema, setSchema] = useState<GraphQLSchema | null>(null);
   const [response, setResponse] = useState<FetchDataResponse<T> | undefined>(undefined);
   const [showHeaders, setShowHeaders] = useState(false);
@@ -57,31 +59,36 @@ export default function GraphQL<T>({
   };
 
   useEffect(() => {
-    if (!endpointUrl) {
-      setEndpointUrlSdl('');
-    } else {
-      setEndpointUrlSdl(`${endpointUrl}?sdl`);
+    if (!endpointUrlSdl) {
+      if (!endpointUrl) {
+        setEndpointUrlSdl('');
+      } else {
+        setEndpointUrlSdl(`${endpointUrl}?sdl`);
+      }
     }
-  }, [endpointUrl]);
+  }, [endpointUrl, endpointUrlSdl]);
 
   useEffect(() => {
     const encodedUrl = endpointUrl ? encode64(endpointUrl) : '';
     const encodedBody = requestBody ? encode64(requestBody) : '';
     const encodedVariables = variables ? encode64(variables) : '';
+    const encodedUrlSdl = endpointUrlSdl ? encode64(endpointUrlSdl) : '';
     const encodedHeaders = requestHeaders.length > 0 ? prepareHeadersParams(requestHeaders) : [];
     const query = new URLSearchParams(encodedHeaders).toString();
     const pathMethod = '/GRAPHQL';
     const pathEncodedUrl = encodedUrl ? `/${encodedUrl}` : '/ ';
     const pathEncodedBody = encodedBody ? `/${encodedBody}` : '/ ';
     const pathEncodedVariables = encodedVariables ? `/${encodedVariables}` : '/ ';
+    const pathEncodedUrlSdl = encodedUrlSdl ? `/${encodedUrlSdl}` : '/ ';
     const pathQuery = encodedHeaders ? `?${query}` : '';
     const localePath = locale ? `/${locale}` : '';
-    const path = localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathEncodedVariables + pathQuery;
+    const path =
+      localePath + pathMethod + pathEncodedUrl + pathEncodedBody + pathEncodedVariables + pathEncodedUrlSdl + pathQuery;
 
     if (typeof window !== 'undefined') {
       window.history.pushState(null, '', path);
     }
-  }, [endpointUrl, requestHeaders, requestBody, locale, variables]);
+  }, [endpointUrl, requestHeaders, requestBody, locale, variables, endpointUrlSdl]);
 
   const handleFetchSdl = async () => {
     try {
@@ -171,7 +178,7 @@ export default function GraphQL<T>({
               {t('RESTGraphQL:send')}
             </button>
           </div>
-          <div className={styles.resfullContainer}>
+          <div className={styles.keyValueContainer}>
             <button className={styles.buttonsShow} onClick={handleShowHeaders}>
               {t('RESTGraphQL:showHeaders')}
             </button>
@@ -179,7 +186,7 @@ export default function GraphQL<T>({
               <KeyValueInputs value={requestHeaders} onChange={setRequestHeaders} onRemove={handleRemoveHeader} />
             )}
           </div>
-          <div className={styles.resfullContainer}>
+          <div className={styles.keyValueContainer}>
             <button className={styles.buttonsShow} onClick={handleShowVariables}>
               {t('RESTGraphQL:showVariables')}
             </button>
