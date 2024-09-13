@@ -11,6 +11,7 @@
   z-index: var(--foreground);
   background-color: var(--medium);
   transition: background-color 0.3s ease-in-out;
+  box-shadow: 0 10px 10px -10px var(--light-transparent);
 }
 
 .sticky {
