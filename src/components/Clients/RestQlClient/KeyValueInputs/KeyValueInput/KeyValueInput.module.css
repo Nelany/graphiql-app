@@ -1,0 +1,21 @@
+.inputContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.inputField {
+  flex-grow: 1;
+  min-width: 200px;
+}
+
+.inputField:first-of-type {
+  max-width: 300px;
+}
+
+.removeButton {
+  height: 50px;
+}

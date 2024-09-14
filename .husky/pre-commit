@@ -1,0 +1,5 @@
+npm run lint --fix
+tsc --noEmit
+npm run prettier-fix && git add -A
+
+
