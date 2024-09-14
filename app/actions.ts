@@ -32,7 +32,7 @@ export const fetchData = async ({ method, url, body, headers, variables }: Actio
     const data = await response.json();
     return { response: data, status: response.status, statusText: response.statusText };
   } catch (error) {
-    return { response: undefined, status: 0, statusText: (error as Error).message };
+    return { response: undefined, status: 0, statusText: `${(error as Error).message}. Please check the URL.` };
   }
 };
 

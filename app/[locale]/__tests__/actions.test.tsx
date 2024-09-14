@@ -72,7 +72,7 @@ describe('fetchData', () => {
       headers: [],
       variables: {},
     });
-    expect(result).toEqual({ response: undefined, status: 0, statusText: errorMessage });
+    expect(result).toEqual({ response: undefined, status: 0, statusText: `${errorMessage}. Please check the URL.` });
   });
 });
 
