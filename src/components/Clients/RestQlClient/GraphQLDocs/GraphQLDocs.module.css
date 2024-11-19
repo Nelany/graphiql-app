@@ -1,0 +1,32 @@
+.docsWrapper {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  padding-right: 20px;
+}
+
+.docs {
+  width: 300px;
+}
+
+.backButton {
+  margin-bottom: 10px;
+  width: 130px;
+}
+
+.fieldLink {
+  cursor: pointer;
+  color: rgb(199, 196, 7);
+}
+
+.fieldDescription {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.argumentDescription {
+  font-style: italic;
+  margin-bottom: 10px;
+}

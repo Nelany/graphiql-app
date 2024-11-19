@@ -1,0 +1,33 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 20px 10px 20px;
+  border-bottom: 1px solid var(--light-transparent);
+  position: sticky;
+  top: 0;
+  z-index: var(--foreground);
+  background-color: var(--medium);
+  transition: background-color 0.3s ease-in-out;
+  box-shadow: 0 10px 10px -10px var(--light-transparent);
+}
+
+.sticky {
+  background-color: var(--dark);
+}
+
+.header__buttons-wrapper {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.logo-link {
+  transition: transform 0.2s ease;
+}
+
+.logo-link:hover {
+  transform: scale(1.1);
+}

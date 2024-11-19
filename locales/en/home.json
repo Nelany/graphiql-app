@@ -1,0 +1,14 @@
+{
+  "header": "Welcome to the REST and GraphiQL client!",
+  "greeting": "Welcome back, ",
+  "buttonSignIn": "Sign in",
+  "buttonSignUp": "Sign up",
+  "buttonHistory": "History",
+  "buttonRest": "REST",
+  "buttonGraphQL": "GraphQL",
+  "developers": "Developers :",
+  "projectInfo": "Project information :",
+  "projectText": "Team has successfully created a combined REST/GraphiQL client app that supports sending RESTful and GraphQL requests, user authentication, and request history. It's features are React 18+, TypeScript, and is built with NextJS, offering private routes, internationalization, and a polished user interface. The app is hosted on GitHub and deployed on Netlify.",
+  "courseInfo": "Course information :",
+  "courseText": "The RS School ReactJS course is designed to teach advanced React concepts, including component architecture, state management, hooks, and routing. It covers TypeScript integration, Redux, and best practices for building scalable applications. The course emphasizes hands-on experience and real-world project development."
+}
