@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { registerWithEmailAndPassword } from '../../../firebase';
 import styles from './SignUpForm.module.css';
 
