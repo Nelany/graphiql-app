@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { fetchSDL } from '../../../../app/actions';
 import ClientEndpoint from '../RestQlClient/ClientEndpoint/ClientEndpoint';
 import ClientEndpointSdl from '../RestQlClient/ClientEndpointSdl/ClientEndpointSdl';
